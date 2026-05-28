@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Logo �cole">
+  <rect width="120" height="120" rx="8" fill="#ffffff"/>
+  <path d="M60 18L22 38v44l38 20 38-20V38L60 18z" fill="none" stroke="#1a4d8c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M60 42v52M38 50l22 12 22-12" fill="none" stroke="#1a4d8c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="60" cy="38" r="6" fill="#1a4d8c"/>
+</svg>

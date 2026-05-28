@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Effectuer un paiement{% endblock %}
+
+{% block content %}
+<h1 class="h4 fw-semibold mb-4">Effectuer un paiement</h1>
+
+{% if message %}
+<div class="alert alert-info">{{ message }}</div>
+<p>
+    <a href="{% url 'payments:liste' %}" class="btn btn-outline-secondary btn-sm">Retour aux paiements</a>
+</p>
+{% else %}
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="h6 text-muted text-uppercase mb-3">Étapes du paiement</h2>
+        <ol class="ps-3">
+            <li>Choisir le moyen de paiement</li>
+            <li>Choisir le mois à payer</li>
+            <li>Vérifier le montant et la description</li>
+        </ol>
+    </div>
+</div>
+
+<form method="post" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-6">
+        <label class="form-label" for="id_moyen_paiement">Moyen de paiement</label>
+        {{ form.moyen_paiement }}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="id_frais">Frais à payer</label>
+        {{ form.frais }}
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Valider le paiement</button>
+        <a href="{% url 'payments:liste' %}" class="btn btn-outline-secondary">Annuler</a>
+    </div>
+</form>
+
+{% if form.is_bound and form.is_valid %}
+<div class="card mt-4">
+    <div class="card-body">
+        <h2 class="h6 text-muted text-uppercase mb-3">Résumé du paiement</h2>
+        <p class="mb-1"><strong>Moyen :</strong> {{ form.cleaned_data.moyen_paiement }}</p>
+        <p class="mb-1"><strong>Frais :</strong> {{ form.cleaned_data.frais }}</p>
+        <p class="mb-1"><strong>Montant :</strong> {{ form.cleaned_data.frais.montant }}</p>
+        <p class="mb-0"><strong>Description :</strong> {{ form.cleaned_data.frais.get_type_frais_display }} mois de {{ form.cleaned_data.frais.get_mois_display }}</p>
+    </div>
+</div>
+{% elif prochain_frais %}
+<div class="card mt-4">
+    <div class="card-body">
+        <h2 class="h6 text-muted text-uppercase mb-3">Mois autorisé</h2>
+        <p class="mb-1"><strong>Mois à payer :</strong> {{ prochain_frais.get_mois_display }}</p>
+        <p class="mb-0"><strong>Montant officiel :</strong> {{ prochain_frais.montant }}</p>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

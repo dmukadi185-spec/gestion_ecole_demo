@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - Plateforme scolaire{% endblock %}
+{% block body_class %}page-landing{% endblock %}
+{% block main_class %}page-landing-main{% endblock %}
+{% block main_container_class %}{% endblock %}
+
+{% block navbar %}
+<header class="landing-header">
+    <div class="landing-header-inner">
+        <a class="landing-brand" href="{% url 'home' %}">Portail de l'élève</a>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="landing-wrapper">
+    <div class="landing-card">
+        <div class="landing-logo">
+            <img src="{% static 'img/logo-ecole.svg' %}" alt="" width="88" height="88">
+        </div>
+
+        <h1 class="landing-welcome">Bienvenue sur la plateforme scolaire</h1>
+
+        <section class="landing-login" aria-labelledby="connexion-heading">
+            {% if user.is_authenticated %}
+            <h2 id="connexion-heading" class="landing-login-title">Vous êtes connecté</h2>
+            <p class="text-center mb-3">Accédez à votre espace élève pour consulter vos notes et paiements.</p>
+            <a href="{% url 'dashboard:index' %}" class="btn btn-primary landing-submit w-100">Accéder au tableau de bord</a>
+            <form method="post" action="{% url 'accounts:signout' %}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-secondary w-100">Déconnexion</button>
+            </form>
+            {% else %}
+            <h2 id="connexion-heading" class="landing-login-title">Connexion</h2>
+
+            <form method="post" action="{% url 'home' %}" class="landing-form" novalidate>
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger py-2 small" role="alert">
+                    {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">{{ form.username.label }} <span class="text-danger">*</span></label>
+                    {{ form.username }}
+                    {% if form.username.help_text %}
+                    <div class="form-text">{{ form.username.help_text }}</div>
+                    {% endif %}
+                    {% if form.username.errors %}
+                    <div class="invalid-feedback d-block">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">{{ form.password.label }} <span class="text-danger">*</span></label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                    <div class="invalid-feedback d-block">{{ form.password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary landing-submit w-100">Connexion</button>
+            </form>
+
+            <p class="landing-activate text-center mb-0">
+                Première connexion ?
+                <a href="{% url 'accounts:activate' %}">Créer mon mot de passe</a>
+            </p>
+            {% endif %}
+        </section>
+    </div>
+
+    <p class="landing-about-link text-center">
+        <a href="#apropos">À propos de l'école</a>
+    </p>
+
+    <section id="apropos" class="landing-about">
+        <h2 class="landing-about-title">À propos de l'école</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <h3 class="landing-about-heading">Présentation</h3>
+                <p class="mb-0">
+                    Notre établissement accompagne les élèves dans leur parcours scolaire avec un encadrement
+                    rigoureux et un suivi personnalisé de leurs résultats et de leurs obligations financières.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3 class="landing-about-heading">Mission</h3>
+                <p class="mb-0">
+                    Offrir une éducation de qualité accessible à tous, en favorisant l'excellence académique
+                    et le développement personnel de chaque élève.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3 class="landing-about-heading">Vision</h3>
+                <p class="mb-0">
+                    Devenir une référence en matière d'enseignement numérique, en connectant les familles
+                    aux informations essentielles de la vie scolaire.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3 class="landing-about-heading">Informations générales</h3>
+                <p class="mb-0">
+                    La plateforme permet aux élèves de consulter leurs notes et l'historique de leurs paiements
+                    en toute sécurité. Les comptes sont créés par l'administration de l'école.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block footer_class %}landing-footer{% endblock %}

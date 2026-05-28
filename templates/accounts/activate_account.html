@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Créer mon mot de passe{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h1 class="h4 fw-semibold mb-4">Créer mon mot de passe</h1>
+        {% if success %}
+        <div class="alert alert-success">
+            Votre mot de passe a été créé. Vous pouvez maintenant vous connecter.
+        </div>
+        <a href="{% url 'accounts:signin' %}" class="btn btn-primary">Se connecter</a>
+        {% else %}
+        <p class="text-muted small mb-4">
+            Saisissez votre identifiant scolaire (nom, postnom et prénom séparés par des espaces,
+            en majuscules, ex.&nbsp;DUPONT MBUYA KABONGO), puis choisissez votre mot de passe personnel.
+            Vous devez être inscrit par l'administration avant la première connexion.
+        </p>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="id_identifiant" class="form-label">{{ form.identifiant.label }}</label>
+                {{ form.identifiant }}
+                {% if form.identifiant.help_text %}<div class="form-text">{{ form.identifiant.help_text }}</div>{% endif %}
+                {% if form.identifiant.errors %}<div class="text-danger small">{{ form.identifiant.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="id_password" class="form-label">{{ form.password.label }}</label>
+                {{ form.password }}
+            </div>
+            <div class="mb-3">
+                <label for="id_password_confirm" class="form-label">{{ form.password_confirm.label }}</label>
+                {{ form.password_confirm }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

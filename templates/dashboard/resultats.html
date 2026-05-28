@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Résultats scolaires{% endblock %}
+
+{% block content %}
+<h1 class="h4 fw-semibold mb-4">Résultats scolaires</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="cours" class="form-label">Cours</label>
+                <select name="cours" id="cours" class="form-select" required>
+                    <option value="">Choisir un cours</option>
+                    {% for cours in cours_list %}
+                    <option value="{{ cours.pk }}" {% if cours_selectionne and cours_selectionne.pk == cours.pk %}selected{% endif %}>
+                        {{ cours.nom }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label for="evaluation" class="form-label">Évaluation</label>
+                <select name="evaluation" id="evaluation" class="form-select" required>
+                    <option value="">Choisir une évaluation</option>
+                    {% for evaluation_cours in evaluations %}
+                    <option value="{{ evaluation_cours.pk }}" {% if evaluation_selectionnee and evaluation_selectionnee.pk == evaluation_cours.pk %}selected{% endif %}>
+                        {{ evaluation_cours.evaluation.get_type_display }} - {{ evaluation_cours.evaluation.get_periode_display }} (/{{ evaluation_cours.note_max }}, {{ evaluation_cours.ponderation }}%)
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Consulter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if cours_selectionne and evaluation_selectionnee %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="h6 text-muted text-uppercase mb-3">Résultat</h2>
+        <p class="mb-1"><strong>Cours :</strong> {{ cours_selectionne.nom }}</p>
+        <p class="mb-1"><strong>Évaluation :</strong> {{ evaluation_selectionnee.evaluation.get_type_display }} - {{ evaluation_selectionnee.evaluation.get_periode_display }}</p>
+        {% if note %}
+        <p class="mb-0 fs-5"><strong>Note :</strong> {{ note.valeur|floatformat:1 }}/{{ evaluation_selectionnee.note_max }}</p>
+        <p class="text-muted small mb-0">Pondération : {{ evaluation_selectionnee.ponderation }}%</p>
+        {% else %}
+        <p class="text-muted mb-0">Aucune note enregistrée pour cette sélection.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

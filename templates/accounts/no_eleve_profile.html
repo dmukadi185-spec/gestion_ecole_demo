@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil élève introuvable{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="alert alert-warning" role="alert">
+            <h1 class="h5 alert-heading">Profil élève non configuré</h1>
+            <p class="mb-0">
+                Votre compte est connecté, mais aucun profil élève n'y est associé.
+                Veuillez contacter l'administration de l'école pour finaliser votre inscription.
+            </p>
+        </div>
+        <form method="post" action="{% url 'accounts:signout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-secondary">Se déconnecter</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
