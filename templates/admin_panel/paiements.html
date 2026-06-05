@@ -1,0 +1,95 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}Paiements{% endblock %}
+{% block page_title %}Suivi des paiements{% endblock %}
+{% block nav_paiements %}active{% endblock %}
+
+{% block content %}
+<!-- Filter bar -->
+<div class="filter-bar mb-4">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-12 col-sm-auto">
+            <label class="form-label small mb-1 fw-medium">Statut</label>
+            <select name="statut" class="form-select form-select-sm">
+                <option value="">Tous les statuts</option>
+                {% for val, label in statut_choices %}
+                <option value="{{ val }}" {% if statut_actif == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <label class="form-label small mb-1 fw-medium">Mois</label>
+            <select name="mois" class="form-select form-select-sm">
+                <option value="">Tous les mois</option>
+                {% for val, label in mois_choices %}
+                <option value="{{ val }}" {% if mois_actif == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <label class="form-label small mb-1 fw-medium">Moyen de paiement</label>
+            <select name="moyen" class="form-select form-select-sm">
+                <option value="">Tous les moyens</option>
+                {% for val, label in mode_choices %}
+                <option value="{{ val }}" {% if moyen_actif == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <button type="submit" class="btn btn-sm btn-primary">Filtrer</button>
+            <a href="{% url 'admin_panel:paiements' %}" class="btn btn-sm btn-outline-secondary ms-1">Réinitialiser</a>
+        </div>
+        {% if total_filtre > 0 %}
+        <div class="col-12 col-sm-auto ms-sm-auto">
+            <span class="fw-semibold text-success"><i class="bi bi-check-circle me-1"></i>Total encaissé : ${{ total_filtre|floatformat:2 }}</span>
+        </div>
+        {% endif %}
+    </form>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h6><i class="bi bi-cash-stack text-primary me-2"></i>Liste des paiements</h6>
+        <span class="badge bg-secondary">{{ paiements|length }} résultat{{ paiements|length|pluralize }}</span>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="table admin-table mb-0">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>N° Transaction</th>
+                    <th>Élève</th>
+                    <th>Classe</th>
+                    <th>Description</th>
+                    <th>Moyen</th>
+                    <th class="text-end">Montant</th>
+                    <th class="text-center">Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in paiements %}
+                <tr>
+                    <td class="text-muted small">{{ p.date_paiement|date:"d/m/Y H:i" }}</td>
+                    <td class="text-muted small font-monospace">{{ p.numero_transaction }}</td>
+                    <td class="fw-medium">{{ p.eleve.nom_complet }}</td>
+                    <td>{{ p.eleve.classe|default:"—" }}</td>
+                    <td>{{ p.description|default:"—" }}</td>
+                    <td>{{ p.get_moyen_paiement_display|default:"—" }}</td>
+                    <td class="text-end fw-semibold">${{ p.montant|floatformat:2 }}</td>
+                    <td class="text-center">
+                        {% if p.statut == "paye" %}
+                        <span class="badge badge-paye px-2 py-1 rounded-pill">Payé</span>
+                        {% elif p.statut == "en_attente" %}
+                        <span class="badge badge-attente px-2 py-1 rounded-pill">En attente</span>
+                        {% else %}
+                        <span class="badge badge-echec px-2 py-1 rounded-pill">Échec</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" class="text-center text-muted py-4">Aucun paiement trouvé</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

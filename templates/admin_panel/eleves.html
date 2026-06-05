@@ -1,0 +1,92 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}Élèves{% endblock %}
+{% block page_title %}Gestion des élèves{% endblock %}
+{% block nav_eleves %}active{% endblock %}
+
+{% block content %}
+<!-- Filter bar -->
+<div class="filter-bar mb-4">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-12 col-sm-auto">
+            <label class="form-label small mb-1 fw-medium">Classe</label>
+            <select name="classe" class="form-select form-select-sm" style="min-width:160px;">
+                <option value="">Toutes les classes</option>
+                {% for cls in classes %}
+                <option value="{{ cls.pk }}" {% if classe_selectionnee == cls.pk|stringformat:"s" %}selected{% endif %}>{{ cls }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <label class="form-label small mb-1 fw-medium">Statut paiement</label>
+            <select name="statut" class="form-select form-select-sm">
+                <option value="">Tous</option>
+                <option value="avec_paiement" {% if statut_filtre == "avec_paiement" %}selected{% endif %}>Ont payé</option>
+                <option value="sans_paiement" {% if statut_filtre == "sans_paiement" %}selected{% endif %}>Aucun paiement</option>
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <button type="submit" class="btn btn-sm btn-primary">Filtrer</button>
+            <a href="{% url 'admin_panel:eleves' %}" class="btn btn-sm btn-outline-secondary ms-1">Réinitialiser</a>
+        </div>
+        <div class="col-12 col-sm-auto ms-sm-auto">
+            <span class="badge bg-primary">{{ eleves_data|length }} élève{{ eleves_data|length|pluralize }}</span>
+        </div>
+    </form>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h6><i class="bi bi-people-fill text-primary me-2"></i>Liste des élèves</h6>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="table admin-table mb-0">
+            <thead>
+                <tr>
+                    <th>Élève</th>
+                    <th>Identifiant</th>
+                    <th>Classe</th>
+                    <th class="text-center">Paiements</th>
+                    <th class="text-end">Montant payé</th>
+                    <th class="text-center">Compte</th>
+                    <th class="text-center">Mot de passe</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in eleves_data %}
+                <tr>
+                    <td class="fw-medium">{{ item.eleve.nom_complet }}</td>
+                    <td class="text-muted small">{{ item.eleve.user.identifiant }}</td>
+                    <td>{{ item.eleve.classe|default:"—" }}</td>
+                    <td class="text-center">
+                        {% if item.nb_payes > 0 %}
+                        <span class="badge badge-paye px-2 rounded-pill">{{ item.nb_payes }}</span>
+                        {% else %}
+                        <span class="text-muted">0</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end fw-semibold {% if item.montant_paye > 0 %}text-success{% else %}text-muted{% endif %}">
+                        {% if item.montant_paye > 0 %}${{ item.montant_paye|floatformat:2 }}{% else %}—{% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if item.compte_actif %}
+                        <span class="badge badge-paye px-2 rounded-pill"><i class="bi bi-check-lg"></i></span>
+                        {% else %}
+                        <span class="badge badge-echec px-2 rounded-pill"><i class="bi bi-x-lg"></i></span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if item.mdp_cree %}
+                        <span class="badge badge-paye px-2 rounded-pill"><i class="bi bi-lock-fill"></i></span>
+                        {% else %}
+                        <span class="badge badge-attente px-2 rounded-pill"><i class="bi bi-lock"></i></span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="text-center text-muted py-4">Aucun élève trouvé</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

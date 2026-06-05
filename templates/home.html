@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Accueil - Plateforme scolaire{% endblock %}
+{% block title %}Accueil — Lycée Étoile Brillante{% endblock %}
 {% block body_class %}page-landing{% endblock %}
 {% block main_class %}page-landing-main{% endblock %}
 {% block main_container_class %}{% endblock %}
@@ -9,7 +9,10 @@
 {% block navbar %}
 <header class="landing-header">
     <div class="landing-header-inner">
-        <a class="landing-brand" href="{% url 'home' %}">Portail de l'élève</a>
+        <a class="landing-brand d-flex align-items-center justify-content-center gap-2" href="{% url 'home' %}">
+            <img src="{% static 'img/logo-ecole.svg' %}" alt="Logo" width="26" height="26">
+            Lycée Étoile Brillante
+        </a>
     </div>
 </header>
 {% endblock %}
@@ -21,7 +24,7 @@
             <img src="{% static 'img/logo-ecole.svg' %}" alt="" width="88" height="88">
         </div>
 
-        <h1 class="landing-welcome">Bienvenue sur la plateforme scolaire</h1>
+        <h1 class="landing-welcome">Bienvenue sur la plateforme du Lycée Étoile Brillante</h1>
 
         <section class="landing-login" aria-labelledby="connexion-heading">
             {% if user.is_authenticated %}

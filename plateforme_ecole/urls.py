@@ -9,4 +9,5 @@ urlpatterns = [
     path("comptes/", include("accounts.urls")),
     path("dashboard/", include("dashboard.urls")),
     path("paiements/", include("payments.urls")),
+    path("administration/", include("admin_panel.urls")),
 ]
