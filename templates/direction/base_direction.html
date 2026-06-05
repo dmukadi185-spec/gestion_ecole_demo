@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Direction{% endblock %} — Lycée Étoile Brillante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <style>
+        /* Direction-specific overrides — gold accent */
+        :root {
+            --nav-accent: #b8860b;
+            --nav-accent-light: #fdf6e3;
+            --sidebar-bg-top: #1a1a2e;
+            --sidebar-bg-bot: #16213e;
+        }
+        .admin-sidebar { background: linear-gradient(180deg, var(--sidebar-bg-top) 0%, var(--sidebar-bg-bot) 100%); }
+        .sidebar-link.active { background: rgba(184,134,11,.25); border-left-color: #d4a017; }
+        .topbar-badge { background: #fdf6e3; color: #b8860b; border: 1px solid #f0d080; }
+        .stat-card.gold { --card-accent: #d4a017; }
+        .stat-card.gold .stat-icon { background: #fdf6e3; color: #b8860b; }
+    </style>
+</head>
+<body class="admin-body">
+<div class="admin-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <a href="{% url 'direction:index' %}" class="sidebar-header">
+            <img src="{% static 'img/logo-ecole.svg' %}" alt="Logo" class="sidebar-logo">
+            <div class="sidebar-brand">
+                <span class="brand-main">Lycée Étoile Brillante</span>
+                <span class="brand-sub">Espace Direction</span>
+            </div>
+        </a>
+
+        <nav class="sidebar-nav">
+            <span class="nav-group-label">Tableau de bord</span>
+            <a href="{% url 'direction:index' %}" class="sidebar-link {% block nav_overview %}{% endblock %}">
+                <i class="bi bi-speedometer2 nav-icon"></i>
+                <span>Vue d'ensemble</span>
+                <i class="bi bi-chevron-right nav-arrow"></i>
+            </a>
+
+            <span class="nav-group-label">Analyses</span>
+            <a href="{% url 'direction:finances' %}" class="sidebar-link {% block nav_finances %}{% endblock %}">
+                <i class="bi bi-cash-coin nav-icon"></i>
+                <span>Finances détaillées</span>
+                <i class="bi bi-chevron-right nav-arrow"></i>
+            </a>
+            <a href="{% url 'direction:eleves' %}" class="sidebar-link {% block nav_eleves %}{% endblock %}">
+                <i class="bi bi-people-fill nav-icon"></i>
+                <span>Élèves</span>
+                <i class="bi bi-chevron-right nav-arrow"></i>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" style="background:#b8860b;"><i class="bi bi-person-badge-fill"></i></div>
+                <div class="user-info">
+                    <div class="user-name">{{ directeur.nom_complet }}</div>
+                    <div class="user-role">{{ directeur.get_titre_display }}</div>
+                </div>
+            </div>
+            <form method="post" action="{% url 'accounts:signout' %}">
+                {% csrf_token %}
+                <button type="submit" class="sidebar-signout">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span class="signout-text">Déconnexion</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="admin-main" id="adminMain">
+        <header class="admin-topbar">
+            <button class="topbar-toggle" id="sidebarToggle" aria-label="Menu">
+                <i class="bi bi-list"></i>
+            </button>
+            <div class="topbar-breadcrumb">
+                <span class="breadcrumb-item"><i class="bi bi-house" style="font-size:12px;"></i></span>
+                <span class="breadcrumb-sep">›</span>
+                <span class="breadcrumb-item">Direction</span>
+                {% block breadcrumb_extra %}{% endblock %}
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-badge">
+                    <i class="bi bi-star-fill"></i>
+                    {{ directeur.get_titre_display }}
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-content">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+    const sidebar = document.getElementById('adminSidebar');
+    const STORAGE_KEY = 'eb_dir_sidebar_collapsed';
+    if (localStorage.getItem(STORAGE_KEY) === '1') sidebar.classList.add('collapsed');
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        localStorage.setItem(STORAGE_KEY, sidebar.classList.contains('collapsed') ? '1' : '0');
+    });
+</script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

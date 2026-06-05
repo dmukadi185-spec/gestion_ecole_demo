@@ -1,0 +1,91 @@
+{% extends "direction/base_direction.html" %}
+{% block title %}Élèves{% endblock %}
+{% block nav_eleves %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">Élèves</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">Liste des élèves</h1>
+        <p class="page-subtitle">{{ eleves_data|length }} élève{{ eleves_data|length|pluralize }} affiché{{ eleves_data|length|pluralize }}</p>
+    </div>
+</div>
+
+<!-- Filter -->
+<div class="filter-bar mb-4">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-12 col-sm-auto">
+            <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:#475569;">Classe</label>
+            <select name="classe" class="form-select form-select-sm" style="min-width:160px;">
+                <option value="">Toutes les classes</option>
+                {% for cls in classes %}
+                <option value="{{ cls.pk }}" {% if classe_selectionnee == cls.pk|stringformat:"s" %}selected{% endif %}>{{ cls }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-funnel me-1"></i>Filtrer</button>
+            <a href="{% url 'direction:eleves' %}" class="btn btn-sm btn-outline-secondary ms-1">Réinit.</a>
+        </div>
+    </form>
+</div>
+
+<!-- Résumé par classe (si pas de filtre) -->
+{% if not classe_selectionnee %}
+<div class="row g-3 mb-3">
+    {% for cls in classes %}
+    {% with nb=cls.eleve_set.count %}
+    {% if nb > 0 %}
+    <div class="col-6 col-md-4 col-lg-3">
+        <a href="?classe={{ cls.pk }}" class="text-decoration-none">
+            <div class="admin-card" style="padding:16px;transition:box-shadow .2s;">
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;font-weight:600;margin-bottom:4px;">{{ cls }}</div>
+                <div style="font-size:24px;font-weight:800;color:#0f172a;">{{ nb }}</div>
+                <div style="font-size:12px;color:#475569;">élève{{ nb|pluralize }}</div>
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="admin-card">
+    <div style="overflow-x:auto;">
+        <table class="admin-table">
+            <thead><tr>
+                <th>Élève</th>
+                <th>Identifiant</th>
+                <th>Classe</th>
+                <th class="text-center">Nb paiements</th>
+                <th class="text-end">Montant payé</th>
+            </tr></thead>
+            <tbody>
+            {% for item in eleves_data %}
+            <tr>
+                <td class="fw-med">{{ item.eleve.nom_complet }}</td>
+                <td class="mono">{{ item.eleve.user.identifiant }}</td>
+                <td>{{ item.eleve.classe|default:"—" }}</td>
+                <td class="text-center">
+                    {% if item.nb_payes > 0 %}
+                    <span class="status-badge paye">{{ item.nb_payes }}</span>
+                    {% else %}
+                    <span class="status-badge echec">0</span>
+                    {% endif %}
+                </td>
+                <td class="text-end fw-med" style="{% if item.montant > 0 %}color:#16a34a;{% else %}color:#94a3b8;{% endif %}">
+                    {% if item.montant > 0 %}${{ item.montant|floatformat:2 }}{% else %}—{% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5"><div class="empty-state"><i class="bi bi-people"></i><p>Aucun élève trouvé</p></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

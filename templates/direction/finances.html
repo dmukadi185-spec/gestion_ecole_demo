@@ -1,0 +1,228 @@
+{% extends "direction/base_direction.html" %}
+{% block title %}Finances détaillées{% endblock %}
+{% block nav_finances %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">Finances</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">Finances détaillées</h1>
+        <p class="page-subtitle">Analyse complète des encaissements — Lycée Étoile Brillante</p>
+    </div>
+</div>
+
+<!-- KPIs financiers -->
+<div class="finance-grid mb-3">
+    <div class="finance-card">
+        <div class="finance-icon green"><i class="bi bi-check-circle-fill"></i></div>
+        <div class="finance-body">
+            <div class="finance-value green">${{ total_encaisse|floatformat:2 }}</div>
+            <div class="finance-label">Total encaissé</div>
+        </div>
+    </div>
+    <div class="finance-card">
+        <div class="finance-icon orange"><i class="bi bi-clock-fill"></i></div>
+        <div class="finance-body">
+            <div class="finance-value orange">${{ total_en_attente|floatformat:2 }}</div>
+            <div class="finance-label">En attente</div>
+        </div>
+    </div>
+    <div class="finance-card">
+        <div class="finance-icon red"><i class="bi bi-x-circle-fill"></i></div>
+        <div class="finance-body">
+            <div class="finance-value red">{{ total_echec_nb }}</div>
+            <div class="finance-label">Paiements échoués</div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts row -->
+<div class="row g-3 mb-3">
+    <div class="col-12 col-xl-8">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-bar-chart-fill"></i>Encaissements mensuels</h6>
+            </div>
+            <div class="admin-card-body">
+                <div class="chart-container" style="height:230px;">
+                    <canvas id="chartMois"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-4">
+        <div class="admin-card h-100">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-pie-chart-fill"></i>Moyen de paiement</h6>
+            </div>
+            <div class="admin-card-body">
+                {% if moyen_labels %}
+                <div style="max-width:160px;margin:0 auto 12px;">
+                    <canvas id="chartMoyen"></canvas>
+                </div>
+                <div class="d-flex flex-column gap-1">
+                    {% for label in moyen_labels %}
+                    <div class="d-flex justify-content-between align-items-center py-1" style="border-top:1px solid #f1f5f9;">
+                        <span style="font-size:12px;color:#475569;">
+                            <span class="d-inline-block rounded-circle me-1" style="width:8px;height:8px;background:{% cycle '#1a4d8c' '#16a34a' '#f59e0b' '#7c3aed' %};"></span>
+                            {{ label }}
+                        </span>
+                        <span style="font-size:12px;font-weight:600;color:#0f172a;">
+                            ${% for d in moyen_data %}{% if forloop.counter0 == forloop.parentloop.counter0 %}{{ d|floatformat:0 }}{% endif %}{% endfor %}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state"><i class="bi bi-pie-chart"></i><p>Aucun paiement</p></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Par type de frais + Par classe -->
+<div class="row g-3 mb-3">
+    <div class="col-12 col-lg-5">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-receipt-cutoff"></i>Par type de frais</h6>
+            </div>
+            {% if type_frais %}
+            <table class="admin-table">
+                <thead><tr>
+                    <th>Type</th>
+                    <th class="text-center">Transactions</th>
+                    <th class="text-end">Montant</th>
+                </tr></thead>
+                <tbody>
+                {% for t in type_frais %}
+                <tr>
+                    <td class="fw-med">{{ t.label }}</td>
+                    <td class="text-center"><span class="status-badge info">{{ t.nombre }}</span></td>
+                    <td class="text-end fw-med" style="color:#16a34a;">${{ t.total|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state"><i class="bi bi-receipt"></i><p>Aucun paiement</p></div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-12 col-lg-7">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-building"></i>Encaissements par classe</h6>
+            </div>
+            {% if finance_par_classe %}
+            <div style="overflow-x:auto;">
+                <table class="admin-table">
+                    <thead><tr>
+                        <th>Classe</th>
+                        <th class="text-center">Élèves</th>
+                        <th class="text-end">Encaissé</th>
+                        <th class="text-end">En attente</th>
+                    </tr></thead>
+                    <tbody>
+                    {% for item in finance_par_classe %}
+                    <tr>
+                        <td class="fw-med">{{ item.classe }}</td>
+                        <td class="text-center">{{ item.nb_eleves }}</td>
+                        <td class="text-end fw-med" style="color:#16a34a;">${{ item.encaisse|floatformat:2 }}</td>
+                        <td class="text-end" style="color:#d97706;">${{ item.en_attente|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state"><i class="bi bi-building"></i><p>Aucune classe</p></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Tableau de tous les paiements -->
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h6><i class="bi bi-table"></i>Historique des paiements (100 derniers)</h6>
+        <span class="badge" style="background:#e8f0fb;color:#1a4d8c;font-size:11px;font-weight:600;padding:4px 10px;border-radius:12px;">
+            {{ paiements|length }} transaction{{ paiements|length|pluralize }}
+        </span>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="admin-table">
+            <thead><tr>
+                <th>Date</th>
+                <th>N° Transaction</th>
+                <th>Élève</th>
+                <th>Classe</th>
+                <th>Description</th>
+                <th>Moyen</th>
+                <th class="text-end">Montant</th>
+                <th class="text-center">Statut</th>
+            </tr></thead>
+            <tbody>
+            {% for p in paiements %}
+            <tr>
+                <td class="mono">{{ p.date_paiement|date:"d/m/Y H:i" }}</td>
+                <td class="mono" style="font-size:11px;">{{ p.numero_transaction }}</td>
+                <td class="fw-med">{{ p.eleve.nom_complet }}</td>
+                <td>{{ p.eleve.classe|default:"—" }}</td>
+                <td>{{ p.description|default:"—" }}</td>
+                <td>{{ p.get_moyen_paiement_display|default:"—" }}</td>
+                <td class="text-end fw-med">${{ p.montant|floatformat:2 }}</td>
+                <td class="text-center">
+                    {% if p.statut == "paye" %}<span class="status-badge paye"><i class="bi bi-check-lg"></i>Payé</span>
+                    {% elif p.statut == "en_attente" %}<span class="status-badge attente"><i class="bi bi-clock"></i>Attente</span>
+                    {% else %}<span class="status-badge echec"><i class="bi bi-x-lg"></i>Échec</span>{% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8"><div class="empty-state"><i class="bi bi-inbox"></i><p>Aucun paiement</p></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+Chart.defaults.color = '#94a3b8';
+
+new Chart(document.getElementById('chartMois'), {
+    type: 'bar',
+    data: {
+        labels: {{ mois_labels|safe }},
+        datasets: [{
+            label: 'Encaissé ($)',
+            data: {{ mois_data|safe }},
+            backgroundColor: 'rgba(26,77,140,0.8)',
+            borderRadius: 5, borderWidth: 0, borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { callback: v => '$' + v } }, x: { grid: { display: false } } }
+    }
+});
+
+{% if moyen_labels %}
+new Chart(document.getElementById('chartMoyen'), {
+    type: 'doughnut',
+    data: {
+        labels: {{ moyen_labels|safe }},
+        datasets: [{ data: {{ moyen_data|safe }}, backgroundColor: ['#1a4d8c','#16a34a','#f59e0b','#7c3aed'], borderWidth: 3, borderColor: '#fff' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, cutout: '68%' }
+});
+{% endif %}
+</script>
+{% endblock %}

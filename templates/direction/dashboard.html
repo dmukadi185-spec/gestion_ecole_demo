@@ -1,0 +1,279 @@
+{% extends "direction/base_direction.html" %}
+{% block title %}Vue d'ensemble{% endblock %}
+{% block nav_overview %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">Vue d'ensemble</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">Bonjour, {{ directeur.nom_complet }} 👋</h1>
+        <p class="page-subtitle">{{ directeur.get_titre_display }} — Lycée Étoile Brillante</p>
+    </div>
+</div>
+
+<!-- Stats générales -->
+<div class="stat-grid">
+    <div class="stat-card blue">
+        <div class="stat-row">
+            <div>
+                <div class="stat-value">{{ total_eleves }}</div>
+                <div class="stat-label">Élèves inscrits</div>
+            </div>
+            <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+        </div>
+        <div class="stat-trend"><i class="bi bi-building"></i> {{ total_classes }} classe{{ total_classes|pluralize }}</div>
+    </div>
+    <div class="stat-card teal">
+        <div class="stat-row">
+            <div>
+                <div class="stat-value">{{ total_classes }}</div>
+                <div class="stat-label">Classes actives</div>
+            </div>
+            <div class="stat-icon"><i class="bi bi-building"></i></div>
+        </div>
+        <div class="stat-trend"><i class="bi bi-book"></i> {{ total_cours }} cours au programme</div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-row">
+            <div>
+                <div class="stat-value">${{ total_encaisse|floatformat:0 }}</div>
+                <div class="stat-label">Total encaissé</div>
+            </div>
+            <div class="stat-icon"><i class="bi bi-cash-coin"></i></div>
+        </div>
+        <div class="stat-trend"><i class="bi bi-arrow-right"></i>
+            <a href="{% url 'direction:finances' %}" style="color:inherit;text-decoration:none;">Voir détails finances</a>
+        </div>
+    </div>
+    <div class="stat-card orange">
+        <div class="stat-row">
+            <div>
+                <div class="stat-value">{{ eleves_sans_paiement }}</div>
+                <div class="stat-label">Sans paiement</div>
+            </div>
+            <div class="stat-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        </div>
+        <div class="stat-trend"><i class="bi bi-arrow-right"></i>
+            <a href="{% url 'direction:eleves' %}?statut=sans_paiement" style="color:inherit;text-decoration:none;">Voir les élèves</a>
+        </div>
+    </div>
+</div>
+
+<!-- Finance overview -->
+<div class="finance-grid">
+    <div class="finance-card">
+        <div class="finance-icon green"><i class="bi bi-check-circle-fill"></i></div>
+        <div class="finance-body">
+            <div class="finance-value green">${{ total_encaisse|floatformat:2 }}</div>
+            <div class="finance-label">Total encaissé (paiements confirmés)</div>
+        </div>
+    </div>
+    <div class="finance-card">
+        <div class="finance-icon orange"><i class="bi bi-clock-fill"></i></div>
+        <div class="finance-body">
+            <div class="finance-value orange">${{ total_en_attente|floatformat:2 }}</div>
+            <div class="finance-label">En attente de confirmation</div>
+        </div>
+    </div>
+    <div class="finance-card">
+        <div class="finance-icon red"><i class="bi bi-x-circle-fill"></i></div>
+        <div class="finance-body">
+            <div class="finance-value red">{{ total_echec_nb }}</div>
+            <div class="finance-label">Paiements échoués</div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="row g-3 mb-3">
+    <div class="col-12 col-xl-8">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-bar-chart-fill"></i>Encaissements par mois</h6>
+                <a href="{% url 'direction:finances' %}" class="btn btn-sm btn-outline-primary" style="font-size:11px;">Finances complètes</a>
+            </div>
+            <div class="admin-card-body">
+                <div class="chart-container" style="height:230px;">
+                    <canvas id="chartMois"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-4">
+        <div class="admin-card h-100">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-pie-chart-fill"></i>Répartition par statut</h6>
+            </div>
+            <div class="admin-card-body d-flex flex-column align-items-center justify-content-center">
+                {% if statut_labels %}
+                <div style="max-width:180px;">
+                    <canvas id="chartStatut"></canvas>
+                </div>
+                {% else %}
+                <div class="empty-state"><i class="bi bi-pie-chart"></i><p>Aucun paiement</p></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Par classe -->
+<div class="row g-3 mb-3">
+    <div class="col-12 col-lg-7">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-building"></i>Effectif & paiements par classe</h6>
+                <a href="{% url 'direction:eleves' %}" class="btn btn-sm btn-outline-primary" style="font-size:11px;">Voir élèves</a>
+            </div>
+            {% if par_classe %}
+            <div style="overflow-x:auto;">
+                <table class="admin-table">
+                    <thead><tr>
+                        <th>Classe</th>
+                        <th class="text-center">Élèves</th>
+                        <th class="text-center">Ont payé</th>
+                        <th class="text-end">Encaissé</th>
+                        <th style="min-width:130px;">Taux</th>
+                    </tr></thead>
+                    <tbody>
+                    {% for item in par_classe %}
+                    <tr>
+                        <td class="fw-med">{{ item.classe }}</td>
+                        <td class="text-center">{{ item.nb_eleves }}</td>
+                        <td class="text-center"><span class="status-badge paye">{{ item.payes }}</span></td>
+                        <td class="text-end fw-med" style="color:#16a34a;">${{ item.montant|floatformat:0 }}</td>
+                        <td>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-track"><div class="progress-fill" style="width:{{ item.taux }}%;"></div></div>
+                                <span class="progress-pct">{{ item.taux }}%</span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state"><i class="bi bi-building"></i><p>Aucune classe enregistrée</p></div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-12 col-lg-5">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h6><i class="bi bi-pie-chart"></i>Moyen de paiement</h6>
+            </div>
+            <div class="admin-card-body">
+                {% if moyen_labels %}
+                <div style="max-width:160px;margin:0 auto 14px;">
+                    <canvas id="chartMoyen"></canvas>
+                </div>
+                <div class="d-flex flex-column gap-1 mt-2">
+                    {% for label in moyen_labels %}
+                    <div class="d-flex justify-content-between py-1" style="border-top:1px solid #f1f5f9;">
+                        <span style="font-size:12px;color:#475569;">
+                            <span class="d-inline-block rounded-circle me-1" style="width:8px;height:8px;background:{% cycle '#1a4d8c' '#16a34a' '#f59e0b' '#7c3aed' %};"></span>
+                            {{ label }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state"><i class="bi bi-pie-chart"></i><p>Aucun paiement</p></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Derniers paiements -->
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h6><i class="bi bi-clock-history"></i>Derniers paiements</h6>
+        <a href="{% url 'direction:finances' %}" class="btn btn-sm btn-outline-primary" style="font-size:11px;">Tout voir</a>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="admin-table">
+            <thead><tr>
+                <th>Date</th>
+                <th>Élève</th>
+                <th>Classe</th>
+                <th>Description</th>
+                <th>Moyen</th>
+                <th class="text-end">Montant</th>
+                <th class="text-center">Statut</th>
+            </tr></thead>
+            <tbody>
+            {% for p in derniers_paiements %}
+            <tr>
+                <td class="mono">{{ p.date_paiement|date:"d/m/Y" }}</td>
+                <td class="fw-med">{{ p.eleve.nom_complet }}</td>
+                <td>{{ p.eleve.classe|default:"—" }}</td>
+                <td>{{ p.description|default:"—" }}</td>
+                <td>{{ p.get_moyen_paiement_display|default:"—" }}</td>
+                <td class="text-end fw-med">${{ p.montant|floatformat:2 }}</td>
+                <td class="text-center">
+                    {% if p.statut == "paye" %}<span class="status-badge paye"><i class="bi bi-check-lg"></i>Payé</span>
+                    {% elif p.statut == "en_attente" %}<span class="status-badge attente"><i class="bi bi-clock"></i>Attente</span>
+                    {% else %}<span class="status-badge echec"><i class="bi bi-x-lg"></i>Échec</span>{% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7"><div class="empty-state"><i class="bi bi-inbox"></i><p>Aucun paiement</p></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#94a3b8';
+
+new Chart(document.getElementById('chartMois'), {
+    type: 'bar',
+    data: {
+        labels: {{ mois_labels|safe }},
+        datasets: [{
+            label: 'Encaissé ($)',
+            data: {{ mois_data|safe }},
+            backgroundColor: 'rgba(26,77,140,0.8)',
+            borderRadius: 5, borderWidth: 0, borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' $' + ctx.parsed.y.toLocaleString() } } },
+        scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { callback: v => '$' + v } }, x: { grid: { display: false } } }
+    }
+});
+
+{% if statut_labels %}
+new Chart(document.getElementById('chartStatut'), {
+    type: 'doughnut',
+    data: {
+        labels: {{ statut_labels|safe }},
+        datasets: [{ data: {{ statut_data|safe }}, backgroundColor: ['#16a34a','#f59e0b','#dc2626'], borderWidth: 3, borderColor: '#fff' }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 10, padding: 8 } } }, cutout: '60%' }
+});
+{% endif %}
+
+{% if moyen_labels %}
+new Chart(document.getElementById('chartMoyen'), {
+    type: 'doughnut',
+    data: {
+        labels: {{ moyen_labels|safe }},
+        datasets: [{ data: {{ moyen_data|safe }}, backgroundColor: ['#1a4d8c','#16a34a','#f59e0b','#7c3aed'], borderWidth: 3, borderColor: '#fff' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, cutout: '68%' }
+});
+{% endif %}
+</script>
+{% endblock %}

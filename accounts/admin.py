@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
 
-from .models import Classe, Eleve, User
+from .models import Classe, Directeur, Eleve, User
 from .utils import normalize_identifiant
 
 
@@ -50,6 +50,77 @@ class UserAdmin(BaseUserAdmin):
 class ClasseAdmin(admin.ModelAdmin):
     list_display = ("niveau", "departement")
     search_fields = ("niveau", "departement")
+
+
+@admin.register(Directeur)
+class DirecteurAdmin(admin.ModelAdmin):
+    list_display = ("nom_display", "titre", "identifiant_display", "compte_actif")
+    list_filter = ("titre",)
+    search_fields = ("nom", "postnom", "prenom", "user__identifiant")
+    fields = ("titre", "nom", "postnom", "prenom")
+    readonly_fields = ("compte_actif",)
+
+    def get_fields(self, request, obj=None):
+        if obj:
+            return ("titre", "nom", "postnom", "prenom")
+        return ("identifiant_input", "password_input", "titre", "nom", "postnom", "prenom")
+
+    def get_form(self, request, obj=None, **kwargs):
+        from django import forms
+
+        class DirecteurForm(forms.ModelForm):
+            identifiant_input = forms.CharField(
+                label="Identifiant de connexion",
+                required=True,
+                help_text="Identifiant unique pour se connecter (ex : DIR-KABONGO ou KABONGO)",
+            )
+            password_input = forms.CharField(
+                label="Mot de passe",
+                widget=forms.PasswordInput,
+                required=True,
+            )
+
+            class Meta:
+                model = Directeur
+                fields = ["titre", "nom", "postnom", "prenom"]
+
+        if obj:
+            kwargs["form"] = super().get_form(request, obj, **kwargs)
+        else:
+            kwargs["form"] = DirecteurForm
+        return super().get_form(request, obj, **kwargs)
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            identifiant = form.cleaned_data.get("identifiant_input", "").strip().upper()
+            password = form.cleaned_data.get("password_input", "")
+            if not identifiant:
+                self.message_user(request, "L'identifiant est obligatoire.", messages.ERROR)
+                return
+            if User.objects.filter(identifiant=identifiant).exists():
+                self.message_user(request, f"L'identifiant « {identifiant} » est déjà utilisé.", messages.ERROR)
+                return
+            user = User.objects.create_user(
+                identifiant=identifiant,
+                password=password,
+                is_active=True,
+                password_created=True,
+            )
+            obj.user = user
+        super().save_model(request, obj, form, change)
+
+    @admin.display(description="Nom / Identifiant")
+    def nom_display(self, obj):
+        parts = [p for p in [obj.prenom, obj.nom, obj.postnom] if p]
+        return " ".join(parts) if parts else "—"
+
+    @admin.display(description="Identifiant")
+    def identifiant_display(self, obj):
+        return obj.user.identifiant if obj.user_id else "—"
+
+    @admin.display(description="Compte actif", boolean=True)
+    def compte_actif(self, obj):
+        return obj.user.is_active if obj.user_id else False
 
 
 @admin.register(Eleve)

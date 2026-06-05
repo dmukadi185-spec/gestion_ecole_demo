@@ -8,11 +8,27 @@ from django.views import View
 from .forms import ActivateAccountForm, SignInForm
 
 
+def _get_redirect_for_user(user):
+    """Return the appropriate home URL based on user role."""
+    if user.is_staff:
+        return "admin_panel:index"
+    try:
+        _ = user.directeur
+        return "direction:index"
+    except Exception:
+        pass
+    return "dashboard:index"
+
+
 def home(request):
+    if request.user.is_authenticated:
+        return redirect(_get_redirect_for_user(request.user))
+
     form = SignInForm(request, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
-        login(request, form.get_user())
-        return redirect("dashboard:index")
+        user = form.get_user()
+        login(request, user)
+        return redirect(_get_redirect_for_user(user))
 
     return render(request, "home.html", {"form": form})
 
@@ -23,12 +39,20 @@ class SignInView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
+        user = self.request.user
+        if user.is_staff:
+            return reverse_lazy("admin_panel:index")
+        try:
+            _ = user.directeur
+            return reverse_lazy("direction:index")
+        except Exception:
+            pass
         return reverse_lazy("dashboard:index")
 
 
 def activate_account(request):
     if request.user.is_authenticated:
-        return redirect("dashboard:index")
+        return redirect(_get_redirect_for_user(request.user))
 
     form = ActivateAccountForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
