@@ -1,13 +1,63 @@
-from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import login
 from django.db.models import Count, Sum, Q
 from django.db.models.functions import TruncMonth
-from django.shortcuts import render
-from django.utils.decorators import method_decorator
+from django.shortcuts import redirect, render
 from django.views import View
 
+from accounts.forms import SignInForm
 from accounts.models import Classe, Eleve, User
 from dashboard.models import Cours, Note
 from payments.models import FraisScolaire, Paiement
+
+
+def staff_required(view_func=None):
+    """Decorator: redirects to admin login page if user is not authenticated staff."""
+    def decorator(func):
+        from functools import wraps
+        @wraps(func)
+        def wrapper(request, *args, **kwargs):
+            if not request.user.is_authenticated or not request.user.is_staff:
+                return redirect(f"/administration/connexion/?next={request.path}")
+            return func(request, *args, **kwargs)
+        return wrapper
+    return decorator if view_func is None else decorator(view_func)
+
+
+def staff_required_dispatch(cls):
+    """Class-based view decorator for staff-only access."""
+    original_dispatch = cls.dispatch
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or not request.user.is_staff:
+            return redirect(f"/administration/connexion/?next={request.path}")
+        return original_dispatch(self, request, *args, **kwargs)
+
+    cls.dispatch = dispatch
+    return cls
+
+
+class AdminLoginView(View):
+    template_name = "admin_panel/login.html"
+
+    def get(self, request):
+        if request.user.is_authenticated and request.user.is_staff:
+            return redirect("/administration/")
+        form = SignInForm(request)
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request):
+        form = SignInForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            if not user.is_staff:
+                return render(request, self.template_name, {
+                    "form": form,
+                    "error": "Ce compte n'a pas accès au panneau d'administration.",
+                })
+            login(request, user)
+            next_url = request.GET.get("next", "/administration/")
+            return redirect(next_url)
+        return render(request, self.template_name, {"form": form})
 
 
 MOIS_ORDER = [
@@ -16,7 +66,7 @@ MOIS_ORDER = [
 ]
 
 
-@method_decorator(staff_member_required(login_url="accounts:signin"), name="dispatch")
+@staff_required_dispatch
 class DashboardAdminView(View):
     template_name = "admin_panel/dashboard.html"
 
@@ -158,7 +208,7 @@ class DashboardAdminView(View):
         return render(request, self.template_name, context)
 
 
-@method_decorator(staff_member_required(login_url="accounts:signin"), name="dispatch")
+@staff_required_dispatch
 class ElevesAdminView(View):
     template_name = "admin_panel/eleves.html"
 
@@ -201,7 +251,7 @@ class ElevesAdminView(View):
         return render(request, self.template_name, context)
 
 
-@method_decorator(staff_member_required(login_url="accounts:signin"), name="dispatch")
+@staff_required_dispatch
 class PaiementsAdminView(View):
     template_name = "admin_panel/paiements.html"
 

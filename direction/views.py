@@ -1,10 +1,11 @@
 from functools import wraps
 
+from django.contrib.auth import login
 from django.db.models import Avg, Count, Sum
 from django.shortcuts import redirect, render
-from django.utils.decorators import method_decorator
 from django.views import View
 
+from accounts.forms import SignInForm
 from accounts.models import Classe, Eleve
 from dashboard.models import Cours, Note
 from payments.models import FraisScolaire, Paiement
@@ -33,20 +34,49 @@ def directeur_required(view_func=None):
 
 
 def directeur_required_dispatch(cls):
-    """Class-based view decorator."""
+    """Class-based view decorator — redirects to direction login."""
     original_dispatch = cls.dispatch
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect(f"/comptes/connexion/?next={request.path}")
+            return redirect(f"/direction/connexion/?next={request.path}")
         try:
             _ = request.user.directeur
         except Exception:
-            return redirect("home")
+            return redirect(f"/direction/connexion/")
         return original_dispatch(self, request, *args, **kwargs)
 
     cls.dispatch = dispatch
     return cls
+
+
+class DirecteurLoginView(View):
+    template_name = "direction/login.html"
+
+    def get(self, request):
+        try:
+            if request.user.is_authenticated and request.user.directeur:
+                return redirect("/direction/")
+        except Exception:
+            pass
+        form = SignInForm(request)
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request):
+        form = SignInForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            try:
+                _ = user.directeur
+            except Exception:
+                return render(request, self.template_name, {
+                    "form": form,
+                    "error": "Ce compte n'a pas accès à l'espace direction.",
+                })
+            login(request, user)
+            next_url = request.GET.get("next", "/direction/")
+            return redirect(next_url)
+        return render(request, self.template_name, {"form": form})
 
 
 def _build_finance_context():
