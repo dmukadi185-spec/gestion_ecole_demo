@@ -1,23 +1,400 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reçu {{ paiement.numero_transaction }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body { background: #f1f5f9; }
 
-{% block title %}Reçu de paiement{% endblock %}
+        .recu-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-{% block content %}
-<div class="card">
-    <div class="card-body">
-        <h1 class="h5 fw-semibold mb-4">Reçu de paiement</h1>
-        <p class="mb-1"><strong>Élève :</strong> {{ eleve.nom_complet }}</p>
-        <p class="mb-1"><strong>Identifiant :</strong> {{ eleve.user.identifiant }}</p>
-        <hr>
-        <p class="mb-1"><strong>Description :</strong> {{ paiement.description }}</p>
-        <p class="mb-1"><strong>Frais :</strong> {{ paiement.frais }}</p>
-        <p class="mb-1"><strong>N° transaction :</strong> {{ paiement.numero_transaction }}</p>
-        <p class="mb-1"><strong>Date :</strong> {{ paiement.date_paiement|date:"d/m/Y" }}</p>
-        <p class="mb-1"><strong>Montant :</strong> {{ paiement.montant }}</p>
-        <p class="mb-0"><strong>Statut :</strong> {{ paiement.get_statut_display }}</p>
+        .recu-topbar {
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .recu-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .recu-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 32px 16px;
+        }
+
+        /* ---- The printable receipt ---- */
+        .recu-doc {
+            background: #fff;
+            width: 100%;
+            max-width: 580px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,.1);
+            overflow: hidden;
+        }
+
+        .recu-header {
+            background: linear-gradient(135deg, #0f2a54 0%, #1a4d8c 100%);
+            padding: 28px 32px 24px;
+            color: #fff;
+            position: relative;
+        }
+
+        .recu-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .recu-school {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .recu-logo-wrap {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,.15);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .recu-school-name {
+            line-height: 1.3;
+        }
+
+        .recu-school-main {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: .02em;
+        }
+
+        .recu-school-sub {
+            font-size: 10px;
+            opacity: .65;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .recu-badge {
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .recu-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .recu-title {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -.01em;
+        }
+
+        .recu-amount-big {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .recu-body {
+            padding: 28px 32px;
+        }
+
+        .recu-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .recu-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            gap: 12px;
+        }
+
+        .recu-row:last-child { border-bottom: none; }
+
+        .recu-row-label {
+            font-size: 12.5px;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        .recu-row-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f172a;
+            text-align: right;
+        }
+
+        .recu-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 20px 0;
+        }
+
+        .recu-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .recu-total-label { font-size: 13px; font-weight: 700; color: #475569; }
+        .recu-total-value { font-size: 20px; font-weight: 800; color: #0f172a; }
+
+        .recu-status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .recu-status-row.paye {
+            background: #dcfce7;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .recu-status-row.en_attente {
+            background: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fde68a;
+        }
+
+        .recu-status-row.echec {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .recu-footer {
+            padding: 16px 32px 24px;
+            border-top: 1px dashed #e2e8f0;
+            text-align: center;
+        }
+
+        .recu-footer p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ===================== PRINT STYLES ===================== */
+        @media print {
+            body { background: #fff !important; }
+            .recu-topbar,
+            .recu-actions,
+            .no-print { display: none !important; }
+            .recu-page { min-height: unset; }
+            .recu-wrapper { padding: 0; }
+            .recu-doc {
+                max-width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .recu-header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            @page { margin: 12mm; size: A4; }
+        }
+    </style>
+</head>
+<body>
+<div class="recu-page">
+
+    <!-- Top navigation bar (hidden when printing) -->
+    <div class="recu-topbar no-print">
+        <a href="{% url 'payments:liste' %}" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Retour
+        </a>
+        <span class="text-muted small fw-medium">Reçu de paiement</span>
+        <div class="recu-actions">
+            <button onclick="window.print()" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-printer me-1"></i>Imprimer
+            </button>
+            <button onclick="downloadPDF()" class="btn btn-sm btn-primary">
+                <i class="bi bi-file-earmark-pdf me-1"></i>Télécharger PDF
+            </button>
+        </div>
     </div>
+
+    <div class="recu-wrapper">
+        <div class="recu-doc" id="recuDoc">
+
+            <!-- Header -->
+            <div class="recu-header">
+                <div class="recu-header-top">
+                    <div class="recu-school">
+                        <div class="recu-logo-wrap">
+                            <img src="{% static 'img/logo-ecole.svg' %}" alt="Logo" width="40" height="40">
+                        </div>
+                        <div class="recu-school-name">
+                            <div class="recu-school-main">Lycée Étoile Brillante</div>
+                            <div class="recu-school-sub">Plateforme numérique</div>
+                        </div>
+                    </div>
+                    <div class="recu-badge">
+                        {% if paiement.statut == "paye" %}✓ Confirmé{% elif paiement.statut == "en_attente" %}⏳ En attente{% else %}✕ Échec{% endif %}
+                    </div>
+                </div>
+                <div class="recu-title-row">
+                    <div class="recu-title">Reçu de paiement</div>
+                    <div class="recu-amount-big">${{ paiement.montant|floatformat:2 }}</div>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="recu-body">
+
+                <!-- Élève -->
+                <div class="recu-section-label">Informations de l'élève</div>
+                <div class="recu-row">
+                    <span class="recu-row-label">Nom complet</span>
+                    <span class="recu-row-value">{{ eleve.nom_complet }}</span>
+                </div>
+                <div class="recu-row">
+                    <span class="recu-row-label">Identifiant scolaire</span>
+                    <span class="recu-row-value" style="font-family:monospace;font-size:12px;">{{ eleve.user.identifiant }}</span>
+                </div>
+                {% if eleve.classe %}
+                <div class="recu-row">
+                    <span class="recu-row-label">Classe</span>
+                    <span class="recu-row-value">{{ eleve.classe }}</span>
+                </div>
+                {% endif %}
+
+                <div class="recu-divider"></div>
+
+                <!-- Paiement -->
+                <div class="recu-section-label">Détails du paiement</div>
+                <div class="recu-row">
+                    <span class="recu-row-label">Description</span>
+                    <span class="recu-row-value">{{ paiement.description|default:"—" }}</span>
+                </div>
+                {% if paiement.frais %}
+                <div class="recu-row">
+                    <span class="recu-row-label">Frais</span>
+                    <span class="recu-row-value">{{ paiement.frais }}</span>
+                </div>
+                {% endif %}
+                {% if paiement.moyen_paiement %}
+                <div class="recu-row">
+                    <span class="recu-row-label">Moyen de paiement</span>
+                    <span class="recu-row-value">{{ paiement.get_moyen_paiement_display }}</span>
+                </div>
+                {% endif %}
+                <div class="recu-row">
+                    <span class="recu-row-label">Date de paiement</span>
+                    <span class="recu-row-value">{{ paiement.date_paiement|date:"d/m/Y à H:i" }}</span>
+                </div>
+                <div class="recu-row">
+                    <span class="recu-row-label">N° de transaction</span>
+                    <span class="recu-row-value" style="font-family:monospace;font-size:12px;">{{ paiement.numero_transaction }}</span>
+                </div>
+
+                <div class="recu-divider"></div>
+
+                <!-- Total -->
+                <div class="recu-total-row">
+                    <span class="recu-total-label">Montant total</span>
+                    <span class="recu-total-value">${{ paiement.montant|floatformat:2 }}</span>
+                </div>
+
+                <!-- Statut -->
+                <div class="recu-status-row {{ paiement.statut }}">
+                    {% if paiement.statut == "paye" %}
+                    <i class="bi bi-check-circle-fill"></i> Paiement confirmé
+                    {% elif paiement.statut == "en_attente" %}
+                    <i class="bi bi-clock-fill"></i> En attente de confirmation
+                    {% else %}
+                    <i class="bi bi-x-circle-fill"></i> Paiement échoué
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="recu-footer">
+                <p>Ce document fait office de reçu officiel du Lycée Étoile Brillante.<br>
+                Conservez-le comme preuve de votre paiement.</p>
+            </div>
+        </div>
+    </div>
+
 </div>
-<p class="mt-3">
-    <a href="{% url 'payments:liste' %}" class="btn btn-outline-secondary btn-sm">Retour aux paiements</a>
-</p>
-{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function downloadPDF() {
+    const btn = document.querySelector('[onclick="downloadPDF()"]');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Génération...';
+
+    // Use the browser's print-to-PDF
+    // We trigger print dialog which the user can save as PDF
+    const style = document.createElement('style');
+    style.id = 'pdf-override';
+    style.textContent = `
+        .recu-topbar, .no-print { display: none !important; }
+        body { background: #fff !important; }
+        .recu-wrapper { padding: 0; }
+        .recu-doc { max-width: 100%; box-shadow: none; border-radius: 0; }
+    `;
+    document.head.appendChild(style);
+
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => {
+            document.getElementById('pdf-override').remove();
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-file-earmark-pdf me-1"></i>Télécharger PDF';
+        }, 1000);
+    }, 100);
+}
+</script>
+</body>
+</html>

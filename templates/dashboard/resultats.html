@@ -1,54 +1,106 @@
 {% extends 'base.html' %}
+{% block title %}Résultats scolaires — Lycée Étoile Brillante{% endblock %}
+{% block nav_active_resultats %}active fw-semibold{% endblock %}
 
-{% block title %}Résultats scolaires{% endblock %}
+{% block breadcrumb %}
+<div class="border-bottom bg-white" style="padding:7px 0;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0" style="font-size:.8rem;">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none text-muted">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}" class="text-decoration-none text-muted">Tableau de bord</a></li>
+                <li class="breadcrumb-item active">Résultats</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
-<h1 class="h4 fw-semibold mb-4">Résultats scolaires</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h4 fw-bold mb-0" style="color:#0f172a;">Résultats scolaires</h1>
+        <p class="text-muted small mb-0">Consultez vos notes par cours et par évaluation</p>
+    </div>
+    <a href="{% url 'dashboard:index' %}" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Tableau de bord
+    </a>
+</div>
 
-<div class="card mb-4">
+<div class="card mb-4" style="border-radius:10px;border-color:#e2e8f0;">
+    <div class="card-header bg-white border-bottom py-3" style="border-color:#e2e8f0;">
+        <span class="fw-semibold" style="font-size:.9rem;"><i class="bi bi-funnel me-2 text-primary"></i>Filtrer les résultats</span>
+    </div>
     <div class="card-body">
         <form method="get" class="row g-3 align-items-end">
             <div class="col-md-5">
-                <label for="cours" class="form-label">Cours</label>
+                <label for="cours" class="form-label fw-medium" style="font-size:.85rem;">Cours</label>
                 <select name="cours" id="cours" class="form-select" required>
                     <option value="">Choisir un cours</option>
                     {% for cours in cours_list %}
-                    <option value="{{ cours.pk }}" {% if cours_selectionne and cours_selectionne.pk == cours.pk %}selected{% endif %}>
-                        {{ cours.nom }}
-                    </option>
+                    <option value="{{ cours.pk }}" {% if cours_selectionne and cours_selectionne.pk == cours.pk %}selected{% endif %}>{{ cours.nom }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-md-5">
-                <label for="evaluation" class="form-label">Évaluation</label>
+                <label for="evaluation" class="form-label fw-medium" style="font-size:.85rem;">Évaluation</label>
                 <select name="evaluation" id="evaluation" class="form-select" required>
                     <option value="">Choisir une évaluation</option>
                     {% for evaluation_cours in evaluations %}
                     <option value="{{ evaluation_cours.pk }}" {% if evaluation_selectionnee and evaluation_selectionnee.pk == evaluation_cours.pk %}selected{% endif %}>
-                        {{ evaluation_cours.evaluation.get_type_display }} - {{ evaluation_cours.evaluation.get_periode_display }} (/{{ evaluation_cours.note_max }}, {{ evaluation_cours.ponderation }}%)
+                        {{ evaluation_cours.evaluation.get_type_display }} – {{ evaluation_cours.evaluation.get_periode_display }} (/{{ evaluation_cours.note_max }}, {{ evaluation_cours.ponderation }}%)
                     </option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Consulter</button>
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search me-1"></i>Consulter</button>
             </div>
         </form>
     </div>
 </div>
 
 {% if cours_selectionne and evaluation_selectionnee %}
-<div class="card">
+<div class="card" style="border-radius:10px;border-color:#e2e8f0;">
+    <div class="card-header bg-white border-bottom py-3" style="border-color:#e2e8f0;">
+        <span class="fw-semibold" style="font-size:.9rem;"><i class="bi bi-award me-2 text-primary"></i>Résultat</span>
+    </div>
     <div class="card-body">
-        <h2 class="h6 text-muted text-uppercase mb-3">Résultat</h2>
-        <p class="mb-1"><strong>Cours :</strong> {{ cours_selectionne.nom }}</p>
-        <p class="mb-1"><strong>Évaluation :</strong> {{ evaluation_selectionnee.evaluation.get_type_display }} - {{ evaluation_selectionnee.evaluation.get_periode_display }}</p>
-        {% if note %}
-        <p class="mb-0 fs-5"><strong>Note :</strong> {{ note.valeur|floatformat:1 }}/{{ evaluation_selectionnee.note_max }}</p>
-        <p class="text-muted small mb-0">Pondération : {{ evaluation_selectionnee.ponderation }}%</p>
-        {% else %}
-        <p class="text-muted mb-0">Aucune note enregistrée pour cette sélection.</p>
-        {% endif %}
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <div style="background:#f8fafc;border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px;">Cours</div>
+                    <div style="font-weight:700;color:#0f172a;">{{ cours_selectionne.nom }}</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div style="background:#f8fafc;border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px;">Évaluation</div>
+                    <div style="font-weight:700;color:#0f172a;">{{ evaluation_selectionnee.evaluation.get_type_display }} – {{ evaluation_selectionnee.evaluation.get_periode_display }}</div>
+                </div>
+            </div>
+            {% if note %}
+            <div class="col-sm-6">
+                <div style="background:#e8f0fb;border-radius:8px;padding:12px 14px;border:1px solid #c7d9f5;">
+                    <div style="font-size:.7rem;color:#4a7cc7;text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px;">Note obtenue</div>
+                    <div style="font-size:1.5rem;font-weight:800;color:#1a4d8c;">{{ note.valeur|floatformat:1 }}<span style="font-size:.9rem;font-weight:500;color:#64748b;"> / {{ evaluation_selectionnee.note_max }}</span></div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div style="background:#f8fafc;border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px;">Pondération</div>
+                    <div style="font-size:1.5rem;font-weight:800;color:#0f172a;">{{ evaluation_selectionnee.ponderation }}<span style="font-size:.9rem;font-weight:500;color:#64748b;">%</span></div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="text-center py-3 text-muted small">
+                    <i class="bi bi-slash-circle d-block mb-1" style="font-size:1.3rem;opacity:.4;"></i>
+                    Aucune note enregistrée pour cette sélection.
+                </div>
+            </div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endif %}

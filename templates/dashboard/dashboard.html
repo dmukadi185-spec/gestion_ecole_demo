@@ -1,82 +1,125 @@
 {% extends 'base.html' %}
+{% block title %}Tableau de bord — Lycée Étoile Brillante{% endblock %}
+{% block nav_active_dashboard %}active fw-semibold{% endblock %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block breadcrumb %}
+<div class="border-bottom bg-white" style="padding:7px 0;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0" style="font-size:.8rem;">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none text-muted">Accueil</a></li>
+                <li class="breadcrumb-item active">Tableau de bord</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
-<h1 class="h4 fw-semibold mb-4">Tableau de bord</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h4 fw-bold mb-0" style="color:#0f172a;">Tableau de bord</h1>
+</div>
 
-<div class="card mb-4">
-    <div class="card-body">
-        <h2 class="h6 text-muted text-uppercase mb-3">Informations élève</h2>
-        <p class="mb-1"><strong>Nom :</strong> {{ eleve.nom_complet }}</p>
-        <p class="mb-1"><strong>Identifiant :</strong> {{ eleve.user.identifiant }}</p>
-        {% if eleve.classe %}
-        <p class="mb-0"><strong>Classe :</strong> {{ eleve.classe }}</p>
-        {% endif %}
+<!-- Profil élève -->
+<div class="card mb-4" style="border-radius:10px;border-color:#e2e8f0;">
+    <div class="card-body d-flex align-items-center gap-3 py-3">
+        <div style="width:44px;height:44px;background:#e8f0fb;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#1a4d8c;flex-shrink:0;">
+            <i class="bi bi-person-circle"></i>
+        </div>
+        <div>
+            <div class="fw-bold" style="color:#0f172a;">{{ eleve.nom_complet }}</div>
+            <div class="small text-muted font-monospace">{{ eleve.user.identifiant }}{% if eleve.classe %} &nbsp;·&nbsp; {{ eleve.classe }}{% endif %}</div>
+        </div>
+        <div class="ms-auto d-flex gap-2">
+            <a href="{% url 'dashboard:resultats' %}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-bar-chart me-1"></i>Résultats
+            </a>
+            <a href="{% url 'payments:liste' %}" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-cash-stack me-1"></i>Paiements
+            </a>
+        </div>
     </div>
 </div>
 
 <div class="row g-4">
+    <!-- Notes récentes -->
     <div class="col-lg-6">
-        <div class="card h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">Notes récentes</span>
-                <a href="{% url 'dashboard:resultats' %}" class="small">Voir les résultats</a>
+        <div class="card h-100" style="border-radius:10px;border-color:#e2e8f0;">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3" style="border-color:#e2e8f0;">
+                <span class="fw-semibold" style="font-size:.9rem;"><i class="bi bi-bar-chart-fill me-2 text-primary"></i>Notes récentes</span>
+                <a href="{% url 'dashboard:resultats' %}" class="btn btn-sm btn-outline-primary" style="font-size:.75rem;">Voir tout</a>
             </div>
             <div class="card-body p-0">
                 {% if notes_recentes %}
-                <table class="table table-sm mb-0">
-                    <thead>
+                <table class="table table-sm mb-0" style="font-size:.85rem;">
+                    <thead style="background:#f8fafc;">
                         <tr>
-                            <th>Cours</th>
-                            <th>Évaluation</th>
-                            <th>Note</th>
+                            <th class="ps-3" style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;font-weight:600;border-bottom:1px solid #e2e8f0;">Cours</th>
+                            <th style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;font-weight:600;border-bottom:1px solid #e2e8f0;">Évaluation</th>
+                            <th class="pe-3 text-end" style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;font-weight:600;border-bottom:1px solid #e2e8f0;">Note</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for note in notes_recentes %}
                         <tr>
-                            <td>{{ note.cours.nom }}</td>
-                            <td>{{ note.evaluation.get_type_display }} - {{ note.evaluation.get_periode_display }}</td>
-                            <td>{{ note.valeur }}/{{ note.evaluation_cours.note_max }}</td>
+                            <td class="ps-3 fw-medium" style="color:#0f172a;">{{ note.cours.nom }}</td>
+                            <td class="text-muted">{{ note.evaluation.get_type_display }} – {{ note.evaluation.get_periode_display }}</td>
+                            <td class="pe-3 text-end">
+                                <span class="fw-semibold" style="color:#1a4d8c;">{{ note.valeur }}</span>
+                                <span class="text-muted">/{{ note.evaluation_cours.note_max }}</span>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 {% else %}
-                <p class="text-muted small p-3 mb-0">Aucune note enregistrée.</p>
+                <div class="text-center py-4 text-muted small">
+                    <i class="bi bi-bar-chart d-block mb-1" style="font-size:1.5rem;opacity:.4;"></i>
+                    Aucune note enregistrée.
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
+
+    <!-- Paiements récents -->
     <div class="col-lg-6">
-        <div class="card h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">Paiements récents</span>
-                <a href="{% url 'payments:liste' %}" class="small">Voir tout</a>
+        <div class="card h-100" style="border-radius:10px;border-color:#e2e8f0;">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3" style="border-color:#e2e8f0;">
+                <span class="fw-semibold" style="font-size:.9rem;"><i class="bi bi-cash-stack me-2 text-success"></i>Paiements récents</span>
+                <a href="{% url 'payments:liste' %}" class="btn btn-sm btn-outline-success" style="font-size:.75rem;">Voir tout</a>
             </div>
             <div class="card-body p-0">
                 {% if paiements_recents %}
-                <table class="table table-sm mb-0">
-                    <thead>
+                <table class="table table-sm mb-0" style="font-size:.85rem;">
+                    <thead style="background:#f8fafc;">
                         <tr>
-                            <th>Date</th>
-                            <th>Montant</th>
-                            <th>Statut</th>
+                            <th class="ps-3" style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;font-weight:600;border-bottom:1px solid #e2e8f0;">Date</th>
+                            <th style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;font-weight:600;border-bottom:1px solid #e2e8f0;">Montant</th>
+                            <th class="pe-3 text-end" style="font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;font-weight:600;border-bottom:1px solid #e2e8f0;">Statut</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for paiement in paiements_recents %}
                         <tr>
-                            <td>{{ paiement.date_paiement|date:"d/m/Y" }}</td>
-                            <td>{{ paiement.montant }}</td>
-                            <td>{{ paiement.get_statut_display }}</td>
+                            <td class="ps-3 text-muted">{{ paiement.date_paiement|date:"d/m/Y" }}</td>
+                            <td class="fw-medium" style="color:#0f172a;">${{ paiement.montant }}</td>
+                            <td class="pe-3 text-end">
+                                {% if paiement.statut == "paye" %}
+                                <span style="background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:12px;">Payé</span>
+                                {% else %}
+                                <span style="background:#fef3c7;color:#d97706;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:12px;">{{ paiement.get_statut_display }}</span>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 {% else %}
-                <p class="text-muted small p-3 mb-0">Aucun paiement enregistré.</p>
+                <div class="text-center py-4 text-muted small">
+                    <i class="bi bi-cash d-block mb-1" style="font-size:1.5rem;opacity:.4;"></i>
+                    Aucun paiement enregistré.
+                </div>
                 {% endif %}
             </div>
         </div>

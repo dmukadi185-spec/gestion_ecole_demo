@@ -1,14 +1,26 @@
 {% extends "admin_panel/base_admin.html" %}
 {% block title %}Élèves{% endblock %}
-{% block page_title %}Gestion des élèves{% endblock %}
 {% block nav_eleves %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">Élèves</span>
+{% endblock %}
 
 {% block content %}
-<!-- Filter bar -->
-<div class="filter-bar mb-4">
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">Gestion des élèves</h1>
+        <p class="page-subtitle">{{ eleves_data|length }} élève{{ eleves_data|length|pluralize }} affiché{{ eleves_data|length|pluralize }}</p>
+    </div>
+    <a href="{% url 'admin:accounts_eleve_add' %}" target="_blank" class="btn btn-sm btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>Nouvel élève
+    </a>
+</div>
+
+<div class="filter-bar">
     <form method="get" class="row g-2 align-items-end">
         <div class="col-12 col-sm-auto">
-            <label class="form-label small mb-1 fw-medium">Classe</label>
+            <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:#475569;">Classe</label>
             <select name="classe" class="form-select form-select-sm" style="min-width:160px;">
                 <option value="">Toutes les classes</option>
                 {% for cls in classes %}
@@ -17,7 +29,7 @@
             </select>
         </div>
         <div class="col-12 col-sm-auto">
-            <label class="form-label small mb-1 fw-medium">Statut paiement</label>
+            <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:#475569;">Paiement</label>
             <select name="statut" class="form-select form-select-sm">
                 <option value="">Tous</option>
                 <option value="avec_paiement" {% if statut_filtre == "avec_paiement" %}selected{% endif %}>Ont payé</option>
@@ -25,66 +37,58 @@
             </select>
         </div>
         <div class="col-12 col-sm-auto">
-            <button type="submit" class="btn btn-sm btn-primary">Filtrer</button>
-            <a href="{% url 'admin_panel:eleves' %}" class="btn btn-sm btn-outline-secondary ms-1">Réinitialiser</a>
-        </div>
-        <div class="col-12 col-sm-auto ms-sm-auto">
-            <span class="badge bg-primary">{{ eleves_data|length }} élève{{ eleves_data|length|pluralize }}</span>
+            <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-funnel me-1"></i>Filtrer</button>
+            <a href="{% url 'admin_panel:eleves' %}" class="btn btn-sm btn-outline-secondary ms-1">Réinit.</a>
         </div>
     </form>
 </div>
 
 <div class="admin-card">
-    <div class="admin-card-header">
-        <h6><i class="bi bi-people-fill text-primary me-2"></i>Liste des élèves</h6>
-    </div>
     <div style="overflow-x:auto;">
-        <table class="table admin-table mb-0">
-            <thead>
-                <tr>
-                    <th>Élève</th>
-                    <th>Identifiant</th>
-                    <th>Classe</th>
-                    <th class="text-center">Paiements</th>
-                    <th class="text-end">Montant payé</th>
-                    <th class="text-center">Compte</th>
-                    <th class="text-center">Mot de passe</th>
-                </tr>
-            </thead>
+        <table class="admin-table">
+            <thead><tr>
+                <th>Élève</th>
+                <th>Identifiant</th>
+                <th>Classe</th>
+                <th class="text-center">Paiements</th>
+                <th class="text-end">Montant payé</th>
+                <th class="text-center">Compte</th>
+                <th class="text-center">Mot de passe</th>
+            </tr></thead>
             <tbody>
-                {% for item in eleves_data %}
-                <tr>
-                    <td class="fw-medium">{{ item.eleve.nom_complet }}</td>
-                    <td class="text-muted small">{{ item.eleve.user.identifiant }}</td>
-                    <td>{{ item.eleve.classe|default:"—" }}</td>
-                    <td class="text-center">
-                        {% if item.nb_payes > 0 %}
-                        <span class="badge badge-paye px-2 rounded-pill">{{ item.nb_payes }}</span>
-                        {% else %}
-                        <span class="text-muted">0</span>
-                        {% endif %}
-                    </td>
-                    <td class="text-end fw-semibold {% if item.montant_paye > 0 %}text-success{% else %}text-muted{% endif %}">
-                        {% if item.montant_paye > 0 %}${{ item.montant_paye|floatformat:2 }}{% else %}—{% endif %}
-                    </td>
-                    <td class="text-center">
-                        {% if item.compte_actif %}
-                        <span class="badge badge-paye px-2 rounded-pill"><i class="bi bi-check-lg"></i></span>
-                        {% else %}
-                        <span class="badge badge-echec px-2 rounded-pill"><i class="bi bi-x-lg"></i></span>
-                        {% endif %}
-                    </td>
-                    <td class="text-center">
-                        {% if item.mdp_cree %}
-                        <span class="badge badge-paye px-2 rounded-pill"><i class="bi bi-lock-fill"></i></span>
-                        {% else %}
-                        <span class="badge badge-attente px-2 rounded-pill"><i class="bi bi-lock"></i></span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% empty %}
-                <tr><td colspan="7" class="text-center text-muted py-4">Aucun élève trouvé</td></tr>
-                {% endfor %}
+            {% for item in eleves_data %}
+            <tr>
+                <td class="fw-med">{{ item.eleve.nom_complet }}</td>
+                <td class="mono">{{ item.eleve.user.identifiant }}</td>
+                <td>{{ item.eleve.classe|default:"—" }}</td>
+                <td class="text-center">
+                    {% if item.nb_payes > 0 %}
+                    <span class="status-badge paye">{{ item.nb_payes }} paiement{{ item.nb_payes|pluralize }}</span>
+                    {% else %}
+                    <span class="status-badge echec">Aucun</span>
+                    {% endif %}
+                </td>
+                <td class="text-end fw-med" style="{% if item.montant_paye > 0 %}color:#16a34a;{% else %}color:#94a3b8;{% endif %}">
+                    {% if item.montant_paye > 0 %}${{ item.montant_paye|floatformat:2 }}{% else %}—{% endif %}
+                </td>
+                <td class="text-center">
+                    {% if item.compte_actif %}
+                    <span class="status-badge paye"><i class="bi bi-check-lg"></i>Actif</span>
+                    {% else %}
+                    <span class="status-badge echec"><i class="bi bi-x-lg"></i>Inactif</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    {% if item.mdp_cree %}
+                    <span class="status-badge paye"><i class="bi bi-lock-fill"></i>Créé</span>
+                    {% else %}
+                    <span class="status-badge attente"><i class="bi bi-lock"></i>En attente</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7"><div class="empty-state"><i class="bi bi-people"></i><p>Aucun élève trouvé</p></div></td></tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
