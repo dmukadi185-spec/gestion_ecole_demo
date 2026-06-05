@@ -11,9 +11,13 @@ SECRET_KEY = "django-insecure-bgo+hobwiw0d1mq5^x7tg+3#pd@9+_#vjb&u(7%rb@vpp&3(&w
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
+ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS = []
+if os.environ.get("REPLIT_DEV_DOMAIN"):
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ['REPLIT_DEV_DOMAIN']}")
 if os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
-    ALLOWED_HOSTS.append(os.environ["RENDER_EXTERNAL_HOSTNAME"])
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ['RENDER_EXTERNAL_HOSTNAME']}")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
