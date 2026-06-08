@@ -4,7 +4,7 @@ from django.db.models.functions import TruncMonth
 from django.shortcuts import redirect, render
 from django.views import View
 
-from accounts.forms import SignInForm
+from accounts.forms import StaffSignInForm
 from accounts.models import Classe, Eleve, User
 from dashboard.models import Cours, Note
 from payments.models import FraisScolaire, Paiement
@@ -42,11 +42,11 @@ class AdminLoginView(View):
     def get(self, request):
         if request.user.is_authenticated and request.user.is_staff:
             return redirect("/administration/")
-        form = SignInForm(request)
+        form = StaffSignInForm(request)
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
-        form = SignInForm(request, data=request.POST)
+        form = StaffSignInForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             if not user.is_staff:

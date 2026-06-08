@@ -11,11 +11,12 @@ IDENTIFIANT_HELP = (
 )
 
 
-class SignInForm(AuthenticationForm):
+class BaseAuthForm(AuthenticationForm):
+    """Formulaire d'authentification de base — vérifie identifiant + mot de passe uniquement."""
+
     username = forms.CharField(
-        label="Identifiant scolaire",
+        label="Identifiant",
         max_length=50,
-        help_text=IDENTIFIANT_HELP,
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
@@ -39,24 +40,57 @@ class SignInForm(AuthenticationForm):
         password = self.cleaned_data.get("password")
         if identifiant and password:
             self.user_cache = authenticate(
-                self.request,
-                username=identifiant,
-                password=password,
+                self.request, username=identifiant, password=password,
             )
             if self.user_cache is None:
                 raise forms.ValidationError("Identifiant ou mot de passe incorrect.")
             if not self.user_cache.is_active:
                 raise forms.ValidationError("Ce compte est désactivé.")
-            if not self.user_cache.password_created:
+        return self.cleaned_data
+
+
+class SignInForm(BaseAuthForm):
+    """Formulaire pour les élèves — vérifie en plus qu'un profil élève existe."""
+
+    username = forms.CharField(
+        label="Identifiant scolaire",
+        max_length=50,
+        help_text=IDENTIFIANT_HELP,
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "autocomplete": "username",
+                "placeholder": "NOM POSTNOM PRENOM",
+                "style": "text-transform: uppercase",
+            }
+        ),
+    )
+
+    def clean(self):
+        super().clean()
+        user = self.user_cache
+        if user:
+            if not user.password_created:
                 raise forms.ValidationError(
                     "Vous devez d'abord créer votre mot de passe via « Créer mon mot de passe »."
                 )
-            if not Eleve.objects.filter(user=self.user_cache).exists():
-                raise forms.ValidationError(
-                    "Aucun profil élève associé à cet identifiant. "
-                    "Contactez l'administration de l'école."
-                )
+            if not user.is_staff and not hasattr(user, 'directeur'):
+                if not Eleve.objects.filter(user=user).exists():
+                    raise forms.ValidationError(
+                        "Aucun profil élève associé à cet identifiant. "
+                        "Contactez l'administration de l'école."
+                    )
         return self.cleaned_data
+
+
+class StaffSignInForm(BaseAuthForm):
+    """Formulaire pour les admins staff — authentification simple sans vérification de rôle."""
+    pass
+
+
+class DirecteurSignInForm(BaseAuthForm):
+    """Formulaire pour les directeurs — authentification simple sans vérification de rôle."""
+    pass
 
 
 class ActivateAccountForm(forms.Form):

@@ -5,7 +5,7 @@ from django.db.models import Avg, Count, Sum
 from django.shortcuts import redirect, render
 from django.views import View
 
-from accounts.forms import SignInForm
+from accounts.forms import DirecteurSignInForm
 from accounts.models import Classe, Eleve
 from dashboard.models import Cours, Note
 from payments.models import FraisScolaire, Paiement
@@ -59,11 +59,11 @@ class DirecteurLoginView(View):
                 return redirect("/direction/")
         except Exception:
             pass
-        form = SignInForm(request)
+        form = DirecteurSignInForm(request)
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
-        form = SignInForm(request, data=request.POST)
+        form = DirecteurSignInForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             try:
