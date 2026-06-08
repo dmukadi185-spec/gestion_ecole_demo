@@ -1,0 +1,211 @@
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.navbar-brand {
+    letter-spacing: 0.02em;
+}
+
+.card {
+    border-color: #e9ecef;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background-color: #1a4d8c;
+    border-color: #1a4d8c;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #153d6f;
+    border-color: #153d6f;
+}
+
+main .container {
+    max-width: 960px;
+}
+
+/* Landing page (UPL-inspired) */
+.page-landing {
+    background-color: #eceff1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-landing .page-landing-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem 3rem;
+}
+
+.page-landing .landing-footer {
+    margin-top: 0;
+    border-top-color: #dde2e6;
+    background-color: #eceff1;
+}
+
+.landing-header {
+    background-color: #fff;
+    border-bottom: 1px solid #dde2e6;
+}
+
+.landing-header-inner {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    text-align: center;
+}
+
+.landing-brand {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a4d8c;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+.landing-brand:hover {
+    color: #153d6f;
+}
+
+.landing-wrapper {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.landing-card {
+    background-color: #fff;
+    border: 1px solid #dde2e6;
+    border-radius: 4px;
+    padding: 2rem 2rem 1.75rem;
+    text-align: center;
+}
+
+.landing-logo {
+    margin-bottom: 1.25rem;
+}
+
+.landing-logo img {
+    display: inline-block;
+}
+
+.landing-welcome {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #2c3e50;
+    line-height: 1.45;
+    margin-bottom: 1.75rem;
+}
+
+.landing-login {
+    text-align: left;
+}
+
+.landing-login-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.landing-form .form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.35rem;
+}
+
+.landing-form .form-control {
+    border-radius: 3px;
+    border-color: #ced4da;
+    font-size: 0.95rem;
+}
+
+.landing-form .form-control:focus {
+    border-color: #1a4d8c;
+    box-shadow: 0 0 0 0.2rem rgba(26, 77, 140, 0.15);
+}
+
+.landing-submit {
+    margin-top: 0.5rem;
+    font-weight: 600;
+    padding: 0.55rem 1rem;
+    border-radius: 3px;
+}
+
+.landing-activate {
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.landing-activate a {
+    color: #1a4d8c;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.landing-activate a:hover {
+    text-decoration: underline;
+}
+
+.landing-about-link {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.landing-about-link a {
+    color: #6c757d;
+    text-decoration: none;
+}
+
+.landing-about-link a:hover {
+    color: #1a4d8c;
+    text-decoration: underline;
+}
+
+.landing-about {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #dde2e6;
+    text-align: left;
+}
+
+.landing-about-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+.landing-about-heading {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.landing-about p {
+    font-size: 0.9rem;
+    color: #495057;
+    line-height: 1.55;
+}
+
+@media (max-width: 575.98px) {
+    .landing-card {
+        padding: 1.5rem 1.25rem 1.25rem;
+    }
+
+    .landing-welcome {
+        font-size: 1.05rem;
+    }
+}
