@@ -1,3 +1,7 @@
-Django>=5.0,<7.0
-gunicorn
-whitenoise
+asgiref==3.11.1
+Django==6.0.6
+django-jazzmin==3.0.4
+gunicorn==26.0.0
+packaging==26.2
+sqlparse==0.5.5
+whitenoise==6.12.0

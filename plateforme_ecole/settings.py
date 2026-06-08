@@ -13,7 +13,13 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.replit.dev",
+    "https://*.replit.app",
+    "https://*.worf.replit.dev",
+    "https://*.pike.replit.dev",
+    "https://*.spock.replit.dev",
+]
 if os.environ.get("REPLIT_DEV_DOMAIN"):
     CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ['REPLIT_DEV_DOMAIN']}")
 if os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
