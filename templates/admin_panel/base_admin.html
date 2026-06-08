@@ -12,7 +12,6 @@
 <body class="admin-body">
 <div class="admin-wrapper">
 
-    <!-- ======================== SIDEBAR ======================== -->
     <aside class="admin-sidebar" id="adminSidebar">
         <a href="{% url 'admin_panel:index' %}" class="sidebar-header">
             <img src="{% static 'img/logo-ecole.svg' %}" alt="Logo" class="sidebar-logo">
@@ -48,11 +47,6 @@
                 <span>Admin Django</span>
                 <i class="bi bi-box-arrow-up-right nav-arrow"></i>
             </a>
-            <a href="{% url 'dashboard:index' %}" class="sidebar-link" target="_blank">
-                <i class="bi bi-person-circle nav-icon"></i>
-                <span>Espace élève</span>
-                <i class="bi bi-box-arrow-up-right nav-arrow"></i>
-            </a>
             <a href="{% url 'home' %}" class="sidebar-link">
                 <i class="bi bi-house-fill nav-icon"></i>
                 <span>Site public</span>
@@ -78,30 +72,24 @@
         </div>
     </aside>
 
-    <!-- ======================== MAIN ======================== -->
     <div class="admin-main" id="adminMain">
-        <!-- Topbar -->
         <header class="admin-topbar">
-            <button class="topbar-toggle" id="sidebarToggle" aria-label="Ouvrir/fermer le menu">
+            <button class="topbar-toggle" id="sidebarToggle" aria-label="Menu">
                 <i class="bi bi-list"></i>
             </button>
             <div class="topbar-breadcrumb">
-                <span class="breadcrumb-item">
-                    <i class="bi bi-house" style="font-size:12px;"></i>
-                </span>
+                <span class="breadcrumb-item"><i class="bi bi-house" style="font-size:11px;"></i></span>
                 <span class="breadcrumb-sep">›</span>
                 <span class="breadcrumb-item">Administration</span>
                 {% block breadcrumb_extra %}{% endblock %}
             </div>
             <div class="topbar-right">
                 <div class="topbar-badge">
-                    <i class="bi bi-shield-check"></i>
-                    Staff
+                    <i class="bi bi-shield-check-fill"></i> Staff
                 </div>
             </div>
         </header>
 
-        <!-- Content -->
         <main class="admin-content">
             {% if messages %}
             {% for message in messages %}
@@ -119,17 +107,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script>
-    // Sidebar toggle
     const sidebar = document.getElementById('adminSidebar');
-    const toggleBtn = document.getElementById('sidebarToggle');
-    const STORAGE_KEY = 'eb_sidebar_collapsed';
-
-    // Restore saved state
-    if (localStorage.getItem(STORAGE_KEY) === '1') {
-        sidebar.classList.add('collapsed');
-    }
-
-    toggleBtn.addEventListener('click', function () {
+    const STORAGE_KEY = 'eb_sidebar_v2';
+    if (localStorage.getItem(STORAGE_KEY) === '1') sidebar.classList.add('collapsed');
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
         localStorage.setItem(STORAGE_KEY, sidebar.classList.contains('collapsed') ? '1' : '0');
     });
