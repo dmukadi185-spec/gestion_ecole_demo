@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Mes cours — Espace Professeur{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3">Mes cours</h1>
+            <p class="text-muted">Liste des cours que vous dispensez.</p>
+        </div>
+    </div>
+    {% if cours %}
+    <div class="row g-3">
+        {% for c in cours %}
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5">{{ c.nom }}</h2>
+                    <p class="mb-1"><strong>Classe :</strong> {{ c.classe }}</p>
+                    <p class="mb-3"><strong>Évaluations</strong> : {{ c.evaluations_config.count }}</p>
+                    <a href="{% url 'professeur:cours_notes' c.pk %}" class="btn btn-sm btn-primary">Voir notes</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">Vous n'êtes affecté à aucun cours pour le moment.</div>
+    {% endif %}
+</div>
+{% endblock %}

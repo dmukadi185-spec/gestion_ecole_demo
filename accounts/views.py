@@ -10,20 +10,20 @@ from .forms import ActivateAccountForm, SignInForm
 
 def _get_redirect_for_user(user):
     """Return the appropriate home URL based on user role."""
-    if user.is_staff:
-        return "admin_panel:index"
     try:
         _ = user.directeur
-        return "direction:index"
+        return "admin_panel:index"
+    except Exception:
+        pass
+    try:
+        _ = user.professeur
+        return "professeur:index"
     except Exception:
         pass
     return "dashboard:index"
 
 
 def home(request):
-    if request.user.is_authenticated:
-        return redirect(_get_redirect_for_user(request.user))
-
     form = SignInForm(request, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.get_user()
@@ -40,11 +40,14 @@ class SignInView(LoginView):
 
     def get_success_url(self):
         user = self.request.user
-        if user.is_staff:
-            return reverse_lazy("admin_panel:index")
         try:
             _ = user.directeur
-            return reverse_lazy("direction:index")
+            return reverse_lazy("admin_panel:index")
+        except Exception:
+            pass
+        try:
+            _ = user.professeur
+            return reverse_lazy("professeur:index")
         except Exception:
             pass
         return reverse_lazy("dashboard:index")

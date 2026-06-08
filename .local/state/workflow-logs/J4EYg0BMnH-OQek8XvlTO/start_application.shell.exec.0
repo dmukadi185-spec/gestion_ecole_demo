@@ -1,0 +1,202 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 05, 2026 - 18:32:43
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[05/Jun/2026 18:32:46] [m"GET / HTTP/1.1" 200 5188[0m
+[05/Jun/2026 18:32:46] [36m"GET /static/css/style.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:32:46] [36m"GET /static/img/logo-ecole.svg HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:32:48] [m"GET / HTTP/1.1" 200 5188[0m
+[05/Jun/2026 18:32:48] [m"GET /static/css/style.css HTTP/1.1" 200 3505[0m
+[05/Jun/2026 18:32:48] [m"GET /static/img/logo-ecole.svg HTTP/1.1" 200 1504[0m
+Not Found: /favicon.ico
+[05/Jun/2026 18:32:48] [33m"GET /favicon.ico HTTP/1.1" 404 2989[0m
+[05/Jun/2026 18:32:55] [32m"GET /administration/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:32:55] [m"GET /comptes/connexion/?next=/administration/ HTTP/1.1" 200 4031[0m
+[05/Jun/2026 18:33:46] [32m"POST / HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:33:47] [m"GET /dashboard/ HTTP/1.1" 200 9194[0m
+[05/Jun/2026 18:33:58] [m"GET /paiements/ HTTP/1.1" 200 15281[0m
+[05/Jun/2026 18:34:04] [m"GET /paiements/9/recu/ HTTP/1.1" 200 12299[0m
+[05/Jun/2026 18:34:25] [m"GET /paiements/ HTTP/1.1" 200 15281[0m
+[05/Jun/2026 18:34:25] [36m"GET /static/img/logo-ecole.svg HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:34:33] [m"GET /dashboard/ HTTP/1.1" 200 9194[0m
+[05/Jun/2026 18:34:35] [m"GET /dashboard/resultats/ HTTP/1.1" 200 5993[0m
+[05/Jun/2026 18:34:40] [m"GET / HTTP/1.1" 200 4205[0m
+[05/Jun/2026 18:34:42] [m"GET /dashboard/ HTTP/1.1" 200 9194[0m
+[05/Jun/2026 18:34:47] [m"GET /paiements/ HTTP/1.1" 200 15281[0m
+[05/Jun/2026 18:34:49] [m"GET /paiements/nouveau/ HTTP/1.1" 200 6809[0m
+[05/Jun/2026 18:34:59] [32m"POST /paiements/nouveau/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:34:59] [m"GET /paiements/ HTTP/1.1" 200 16106[0m
+[05/Jun/2026 18:35:00] [36m"GET /static/css/style.css HTTP/1.1" 304 0[0m
+Not Found: /dashboard/admin
+[05/Jun/2026 18:35:30] [33m"GET /dashboard/admin HTTP/1.1" 404 3431[0m
+[05/Jun/2026 18:35:36] [32m"GET /admin/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:35:37] [m"GET /admin/login/?next=/admin/ HTTP/1.1" 200 3698[0m
+[05/Jun/2026 18:35:37] [36m"GET /static/admin/css/base.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:35:37] [36m"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:35:37] [36m"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:35:37] [36m"GET /static/admin/css/responsive.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:35:37] [36m"GET /static/admin/css/login.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:35:38] [36m"GET /static/admin/js/theme.js HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:35:38] [36m"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:35:47] [32m"POST /admin/login/?next=/admin/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:35:48] [m"GET /admin/ HTTP/1.1" 200 16487[0m
+[05/Jun/2026 18:35:48] [m"GET /static/admin/css/dashboard.css HTTP/1.1" 200 441[0m
+[05/Jun/2026 18:35:49] [m"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593[0m
+[05/Jun/2026 18:35:49] [m"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978[0m
+/home/runner/workspace/accounts/models.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 05, 2026 - 18:42:20
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[05/Jun/2026 18:42:23] [m"GET /admin/ HTTP/1.1" 200 16487[0m
+[05/Jun/2026 18:42:23] [36m"GET /static/admin/css/base.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:42:23] [36m"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:42:24] [36m"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:42:24] [36m"GET /static/admin/css/dashboard.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:42:24] [36m"GET /static/admin/css/responsive.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:42:24] [36m"GET /static/admin/js/theme.js HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:42:24] [36m"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0[0m
+/home/runner/workspace/accounts/admin.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 05, 2026 - 18:42:26
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[05/Jun/2026 18:42:28] [m"GET /admin/ HTTP/1.1" 200 16487[0m
+/home/runner/workspace/accounts/admin.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E035) The value of 'readonly_fields[0]' refers to 'identifiant_input', which is not a callable, an attribute of 'DirecteurAdmin', or an attribute of 'accounts.Directeur'.[0m
+
+System check identified 1 issue (0 silenced).
+/home/runner/workspace/plateforme_ecole/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E035) The value of 'readonly_fields[0]' refers to 'identifiant_input', which is not a callable, an attribute of 'DirecteurAdmin', or an attribute of 'accounts.Directeur'.[0m
+
+System check identified 1 issue (0 silenced).
+/home/runner/workspace/accounts/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E035) The value of 'readonly_fields[0]' refers to 'identifiant_input', which is not a callable, an attribute of 'DirecteurAdmin', or an attribute of 'accounts.Directeur'.[0m
+
+System check identified 1 issue (0 silenced).
+/home/runner/workspace/accounts/admin.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 05, 2026 - 18:43:36
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[05/Jun/2026 18:43:38] [m"GET /admin/ HTTP/1.1" 200 17122[0m
+[05/Jun/2026 18:43:39] [36m"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:43:39] [36m"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:44:04] [m"GET /admin/accounts/directeur/add/ HTTP/1.1" 200 17655[0m
+[05/Jun/2026 18:44:05] [m"GET /static/admin/css/forms.css HTTP/1.1" 200 8831[0m
+[05/Jun/2026 18:44:05] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[05/Jun/2026 18:44:05] [m"GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/css/widgets.css HTTP/1.1" 200 11811[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/core.js HTTP/1.1" 200 6208[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/actions.js HTTP/1.1" 200 8077[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/urlify.js HTTP/1.1" 200 7887[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171[0m
+[05/Jun/2026 18:44:06] [m"GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586[0m
+[05/Jun/2026 18:44:07] [m"GET /static/admin/js/change_form.js HTTP/1.1" 200 606[0m
+[05/Jun/2026 18:44:52] [32m"POST /admin/accounts/directeur/add/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:44:52] [m"GET /admin/accounts/directeur/ HTTP/1.1" 200 16963[0m
+[05/Jun/2026 18:44:53] [m"GET /static/admin/css/changelists.css HTTP/1.1" 200 7498[0m
+[05/Jun/2026 18:44:53] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[05/Jun/2026 18:44:53] [m"GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 558[0m
+[05/Jun/2026 18:44:53] [m"GET /static/admin/img/search.svg HTTP/1.1" 200 607[0m
+[05/Jun/2026 18:44:53] [m"GET /static/admin/js/filters.js HTTP/1.1" 200 978[0m
+[05/Jun/2026 18:44:53] [m"GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 593[0m
+[05/Jun/2026 18:44:53] [m"GET /static/admin/img/icon-yes-dark.svg HTTP/1.1" 200 558[0m
+[05/Jun/2026 18:44:53] [m"GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 928[0m
+[05/Jun/2026 18:45:01] [m"GET /admin/accounts/user/ HTTP/1.1" 200 20190[0m
+[05/Jun/2026 18:45:01] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[05/Jun/2026 18:45:01] [m"GET /static/admin/img/icon-no.svg HTTP/1.1" 200 645[0m
+[05/Jun/2026 18:45:01] [m"GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1761[0m
+[05/Jun/2026 18:45:09] [m"GET /admin/accounts/user/6/change/ HTTP/1.1" 200 25968[0m
+[05/Jun/2026 18:45:09] [m"GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530[0m
+[05/Jun/2026 18:45:09] [m"GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 16428[0m
+[05/Jun/2026 18:45:09] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[05/Jun/2026 18:45:10] [m"GET /static/admin/img/selector-icons.svg HTTP/1.1" 200 2387[0m
+[05/Jun/2026 18:45:16] [32m"POST /admin/accounts/user/6/change/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:45:16] [m"GET /admin/accounts/user/ HTTP/1.1" 200 20412[0m
+[05/Jun/2026 18:45:17] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m

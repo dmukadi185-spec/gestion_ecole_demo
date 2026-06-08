@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Connexion Professeur — Lycée Étoile Brillante{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 520px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+            <div class="mb-4 text-center">
+                <h1 class="h3 mb-1">Espace Professeur</h1>
+                <p class="text-muted mb-0">Connectez-vous pour accéder à vos cours, classes et notes.</p>
+            </div>
+            {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {% if form.username.help_text %}
+                    <div class="form-text">{{ form.username.help_text }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Connexion</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

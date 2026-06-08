@@ -1,0 +1,102 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 08, 2026 - 09:22:38
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[08/Jun/2026 09:22:52] [32m"GET /admin/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:22:52] [m"GET /admin/login/?next=/admin/ HTTP/1.1" 200 3212[0m
+[08/Jun/2026 09:22:52] [m"GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637[0m
+[08/Jun/2026 09:22:52] [m"GET /static/jazzmin/css/main.css HTTP/1.1" 200 14372[0m
+[08/Jun/2026 09:22:52] [m"GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314[0m
+[08/Jun/2026 09:22:52] [m"GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103010[0m
+[08/Jun/2026 09:22:52] [m"GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 298755[0m
+[08/Jun/2026 09:22:52] [m"GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 80721[0m
+[08/Jun/2026 09:22:52] [m"GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 18270[0m
+[08/Jun/2026 09:22:52] [m"GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400[0m
+[08/Jun/2026 09:24:06] [32m"GET /admin/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:24:06] [m"GET /admin/login/?next=/admin/ HTTP/1.1" 200 3599[0m
+[08/Jun/2026 09:24:07] [36m"GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:07] [36m"GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:07] [36m"GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:07] [36m"GET /static/jazzmin/css/main.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:07] [36m"GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:07] [36m"GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:08] [36m"GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:22] [32m"POST /admin/login/?next=/admin/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:24:23] [m"GET /admin/ HTTP/1.1" 200 23176[0m
+[08/Jun/2026 09:24:23] [36m"GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:23] [36m"GET /static/jazzmin/js/main.js HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:24:28] [m"GET /admin/accounts/eleve/add/ HTTP/1.1" 200 25474[0m
+[08/Jun/2026 09:24:28] [m"GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264[0m
+[08/Jun/2026 09:24:28] [m"GET /static/admin/css/vendor/select2/select2.css HTTP/1.1" 200 17358[0m
+[08/Jun/2026 09:24:28] [m"GET /static/admin/css/autocomplete.css HTTP/1.1" 200 9185[0m
+[08/Jun/2026 09:24:28] [m"GET /static/admin/js/vendor/select2/select2.full.js HTTP/1.1" 200 173566[0m
+[08/Jun/2026 09:24:28] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[08/Jun/2026 09:24:28] [m"GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347[0m
+[08/Jun/2026 09:24:28] [m"GET /static/admin/js/vendor/select2/i18n/fr.js HTTP/1.1" 200 924[0m
+[08/Jun/2026 09:24:29] [m"GET /static/admin/js/core.js HTTP/1.1" 200 6208[0m
+[08/Jun/2026 09:24:29] [m"GET /static/admin/js/autocomplete.js HTTP/1.1" 200 1060[0m
+[08/Jun/2026 09:24:29] [m"GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777[0m
+[08/Jun/2026 09:24:29] [m"GET /static/admin/js/actions.js HTTP/1.1" 200 8077[0m
+[08/Jun/2026 09:24:29] [m"GET /static/admin/js/urlify.js HTTP/1.1" 200 7887[0m
+[08/Jun/2026 09:24:29] [m"GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531[0m
+[08/Jun/2026 09:24:29] [m"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171[0m
+[08/Jun/2026 09:24:30] [m"GET /static/admin/js/change_form.js HTTP/1.1" 200 606[0m
+[08/Jun/2026 09:24:31] [m"GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586[0m
+[08/Jun/2026 09:24:31] [m"GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170[0m
+[08/Jun/2026 09:24:31] [m"GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6045[0m
+[08/Jun/2026 09:24:32] [m"GET /static/jazzmin/plugins/bootstrap-show-modal/bootstrap-show-modal.min.js HTTP/1.1" 200 2996[0m
+[08/Jun/2026 09:24:32] [m"GET /static/jazzmin/js/related-modal.js HTTP/1.1" 200 6403[0m
+[08/Jun/2026 09:24:49] [m"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978[0m
+[08/Jun/2026 09:24:49] [m"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593[0m
+[08/Jun/2026 09:24:50] [m"GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 689[0m
+[08/Jun/2026 09:24:51] [m"GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 928[0m
+/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py:934: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'accounts.models.Classe'> QuerySet.
+  return self.paginator(queryset, per_page, orphans, allow_empty_first_page)
+[08/Jun/2026 09:24:58] [m"GET /admin/autocomplete/?app_label=accounts&model_name=eleve&field_name=classe HTTP/1.1" 200 123[0m
+[08/Jun/2026 09:25:13] [m"GET /admin/ HTTP/1.1" 200 23176[0m
+[08/Jun/2026 09:25:20] [m"GET /admin/accounts/classe/ HTTP/1.1" 200 22471[0m
+[08/Jun/2026 09:25:20] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[08/Jun/2026 09:25:21] [m"GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2205[0m
+[08/Jun/2026 09:25:30] [m"GET /admin/ HTTP/1.1" 200 23176[0m
+[08/Jun/2026 09:25:35] [m"GET /admin/payments/paiement/ HTTP/1.1" 200 33454[0m
+[08/Jun/2026 09:25:37] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[08/Jun/2026 09:25:44] [m"GET /admin/payments/paiement/ HTTP/1.1" 200 33454[0m
+[08/Jun/2026 09:25:45] [m"GET /admin/jsi18n/ HTTP/1.1" 200 8641[0m
+[08/Jun/2026 09:25:48] [m"GET /admin/ HTTP/1.1" 200 23176[0m
+[08/Jun/2026 09:25:55] [32m"GET /admin HTTP/1.1" 301 0[0m
+[08/Jun/2026 09:25:55] [m"GET /admin/ HTTP/1.1" 200 23176[0m
+[08/Jun/2026 09:26:08] [m"GET /admin/ HTTP/1.1" 200 23176[0m
+[08/Jun/2026 09:26:33] [32m"GET /direction/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:26:33] [m"GET /direction/connexion/ HTTP/1.1" 200 5720[0m
+[08/Jun/2026 09:26:36] [m"GET /direction/connexion/ HTTP/1.1" 200 5720[0m
+[08/Jun/2026 09:26:36] [m"GET /direction/connexion/ HTTP/1.1" 200 5720[0m
+[08/Jun/2026 09:26:36] [m"GET /direction/connexion/ HTTP/1.1" 200 5720[0m
+[08/Jun/2026 09:26:37] [32m"POST /direction/connexion/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:26:37] [m"GET /direction/ HTTP/1.1" 200 20819[0m
+[08/Jun/2026 09:26:37] [36m"GET /static/css/admin.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:26:51] [m"GET /direction/finances/ HTTP/1.1" 200 19294[0m
+[08/Jun/2026 09:33:07] [32m"GET /direction/finances HTTP/1.1" 301 0[0m
+[08/Jun/2026 09:33:07] [32m"GET /direction/finances/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:33:08] [m"GET /direction/connexion/?next=/direction/finances/ HTTP/1.1" 200 5720[0m
+Not Found: /favicon.ico
+[08/Jun/2026 09:33:08] [33m"GET /favicon.ico HTTP/1.1" 404 3197[0m
+[08/Jun/2026 09:33:16] [32m"GET /admin HTTP/1.1" 301 0[0m
+[08/Jun/2026 09:33:16] [32m"GET /admin/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:33:16] [m"GET /admin/login/?next=/admin/ HTTP/1.1" 200 3599[0m
+[08/Jun/2026 09:33:17] [36m"GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:33:17] [36m"GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:33:17] [36m"GET /static/jazzmin/css/main.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:33:17] [36m"GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:33:18] [36m"GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:33:18] [36m"GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:33:18] [36m"GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:33:39] [32m"POST /admin/login/?next=/admin/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:33:40] [32m"GET /admin/ HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:33:42] [m"GET /admin/login/?next=/admin/ HTTP/1.1" 200 3599[0m

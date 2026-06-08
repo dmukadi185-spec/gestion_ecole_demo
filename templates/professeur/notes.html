@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Notes — Espace Professeur{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3">Notes — {{ cours.nom }}</h1>
+            <p class="text-muted">Classe : {{ cours.classe }}</p>
+        </div>
+        <a href="{% url 'professeur:cours' %}" class="btn btn-outline-secondary">Retour aux cours</a>
+    </div>
+    {% if evaluations %}
+    <div class="list-group mb-4">
+        {% for evaluation in evaluations %}
+        <div class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ evaluation.evaluation }}</strong>
+                    <div class="text-muted">Max : {{ evaluation.note_max }} — Pondération : {{ evaluation.ponderation }}%</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if eleve_rows %}
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Élève</th>
+                    <th>Note enregistrée</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in eleve_rows %}
+                <tr>
+                    <td>{{ row.eleve.nom_complet }}<br><small>{{ row.eleve.user.identifiant }}</small></td>
+                    <td>
+                        {% if row.note %}
+                            {{ row.note.valeur }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if row.note %}
+                        <a href="{% url 'professeur:note_edit' row.note.pk %}" class="btn btn-sm btn-primary">Modifier</a>
+                        {% else %}
+                        <span class="text-muted">Pas de note</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">Aucun élève n’est rattaché à cette classe.</div>
+    {% endif %}
+</div>
+{% endblock %}

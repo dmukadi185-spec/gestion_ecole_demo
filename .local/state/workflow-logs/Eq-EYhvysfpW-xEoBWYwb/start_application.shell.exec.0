@@ -1,0 +1,123 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 08, 2026 - 09:17:29
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+Forbidden (Permission denied): /admin/accounts/eleve/add/
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 711, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/sites.py", line 247, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 1943, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 1799, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 1818, in _changeform_view
+    raise PermissionDenied
+django.core.exceptions.PermissionDenied
+[08/Jun/2026 09:18:08] [31;1m"GET /admin/accounts/eleve/add/ HTTP/1.1" 403 135[0m
+[08/Jun/2026 09:18:31] [32m"GET / HTTP/1.1" 302 0[0m
+[08/Jun/2026 09:18:31] [m"GET /administration/ HTTP/1.1" 200 23528[0m
+[08/Jun/2026 09:18:32] [36m"GET /static/css/admin.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:44] [m"GET /admin/ HTTP/1.1" 200 17066[0m
+[08/Jun/2026 09:18:44] [36m"GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:45] [36m"GET /static/jazzmin/css/main.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:45] [36m"GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:45] [36m"GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:45] [36m"GET /static/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:46] [36m"GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:46] [36m"GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:46] [36m"GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 304 0[0m
+[08/Jun/2026 09:18:46] [36m"GET /static/jazzmin/js/main.js HTTP/1.1" 304 0[0m
+Forbidden (Permission denied): /admin/accounts/eleve/add/
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 711, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/sites.py", line 247, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 1943, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 1799, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/contrib/admin/options.py", line 1818, in _changeform_view
+    raise PermissionDenied
+django.core.exceptions.PermissionDenied
+[08/Jun/2026 09:18:48] [31;1m"GET /admin/accounts/eleve/add/ HTTP/1.1" 403 135[0m
+[08/Jun/2026 09:18:50] [m"GET /admin/ HTTP/1.1" 200 17066[0m
+[08/Jun/2026 09:19:06] [m"GET /admin/ HTTP/1.1" 200 17066[0m
+[08/Jun/2026 09:19:16] [m"GET /admin/ HTTP/1.1" 200 17066[0m
+/home/runner/workspace/plateforme_ecole/urls.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 08, 2026 - 09:21:52
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m

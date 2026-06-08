@@ -1,0 +1,288 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 05, 2026 - 18:45:39
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[05/Jun/2026 18:45:40] [m"GET /admin/ HTTP/1.1" 200 17124[0m
+[05/Jun/2026 18:45:41] [m"GET /admin/ HTTP/1.1" 200 17124[0m
+[05/Jun/2026 18:45:42] [m"GET /static/admin/css/base.css HTTP/1.1" 200 23100[0m
+[05/Jun/2026 18:45:42] [m"GET /static/admin/css/dark_mode.css HTTP/1.1" 200 3538[0m
+[05/Jun/2026 18:45:42] [m"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810[0m
+[05/Jun/2026 18:45:42] [m"GET /static/admin/css/dashboard.css HTTP/1.1" 200 441[0m
+[05/Jun/2026 18:45:43] [m"GET /static/admin/js/theme.js HTTP/1.1" 200 1653[0m
+[05/Jun/2026 18:45:43] [m"GET /static/admin/css/responsive.css HTTP/1.1" 200 16273[0m
+[05/Jun/2026 18:45:43] [m"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063[0m
+[05/Jun/2026 18:45:43] [m"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593[0m
+[05/Jun/2026 18:45:43] [m"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978[0m
+Not Found: /favicon.ico
+[05/Jun/2026 18:45:44] [33m"GET /favicon.ico HTTP/1.1" 404 3197[0m
+[05/Jun/2026 18:45:50] [32m"GET /direction/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:45:50] [m"GET /comptes/connexion/?next=/direction/ HTTP/1.1" 200 4031[0m
+[05/Jun/2026 18:45:50] [m"GET /static/css/style.css HTTP/1.1" 200 3505[0m
+[05/Jun/2026 18:45:50] [m"GET /static/img/logo-ecole.svg HTTP/1.1" 200 1504[0m
+Not Found: /favicon.ico
+[05/Jun/2026 18:45:51] [33m"GET /favicon.ico HTTP/1.1" 404 3142[0m
+[05/Jun/2026 18:45:54] [32m"GET /direction HTTP/1.1" 301 0[0m
+[05/Jun/2026 18:45:54] [32m"GET /direction/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:45:55] [32m"GET / HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:45:55] [m"GET /administration/ HTTP/1.1" 200 22790[0m
+[05/Jun/2026 18:45:56] [m"GET /static/css/admin.css HTTP/1.1" 200 16048[0m
+[05/Jun/2026 18:45:56] [36m"GET /static/img/logo-ecole.svg HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:46:08] [m"GET /administration/eleves/ HTTP/1.1" 200 11300[0m
+[05/Jun/2026 18:46:09] [32m"GET /direction/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:46:09] [m"GET /comptes/connexion/?next=/direction/ HTTP/1.1" 200 4031[0m
+[05/Jun/2026 18:46:27] [m"GET /administration/paiements/ HTTP/1.1" 200 14943[0m
+[05/Jun/2026 18:46:37] [m"GET /administration/ HTTP/1.1" 200 22790[0m
+[05/Jun/2026 18:51:06] [32m"GET / HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:51:06] [m"GET /administration/ HTTP/1.1" 200 22790[0m
+[05/Jun/2026 18:51:07] [36m"GET /static/css/admin.css HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:51:07] [36m"GET /static/img/logo-ecole.svg HTTP/1.1" 304 0[0m
+[05/Jun/2026 18:51:07] [m"GET /static/css/admin.css HTTP/1.1" 200 16048[0m
+/home/runner/workspace/admin_panel/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/urls.py", line 16, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/urls.py", line 26, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 541, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 729, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/runner/workspace/plateforme_ecole/urls.py", line 12, in <module>
+    path("administration/", include("admin_panel.urls")),
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+    urlconf_module = import_module(urlconf_module)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/runner/workspace/admin_panel/urls.py", line 3, in <module>
+    from . import views
+  File "/home/runner/workspace/admin_panel/views.py", line 71, in <module>
+    @method_decorator(staff_member_required(login_url="accounts:signin"), name="dispatch")
+                      ^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'staff_member_required' is not defined
+/home/runner/workspace/admin_panel/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/urls.py", line 16, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/urls.py", line 26, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 541, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 729, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/runner/workspace/plateforme_ecole/urls.py", line 12, in <module>
+    path("administration/", include("admin_panel.urls")),
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+    urlconf_module = import_module(urlconf_module)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/runner/workspace/admin_panel/urls.py", line 3, in <module>
+    from . import views
+  File "/home/runner/workspace/admin_panel/views.py", line 213, in <module>
+    @method_decorator(staff_member_required(login_url="accounts:signin"), name="dispatch")
+                      ^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'staff_member_required' is not defined
+/home/runner/workspace/admin_panel/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+    all_issues = checks.run_checks(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/urls.py", line 16, in check_url_config
+    return check_resolver(resolver)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/checks/urls.py", line 26, in check_resolver
+    return check_method()
+           ^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 541, in check
+    for pattern in self.url_patterns:
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 729, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+                       ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+    return import_module(self.urlconf_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/runner/workspace/plateforme_ecole/urls.py", line 12, in <module>
+    path("administration/", include("admin_panel.urls")),
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+    urlconf_module = import_module(urlconf_module)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/iizfzmqjdfvbyx82gqw92glb5zl6m4my-python3-3.12.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/runner/workspace/admin_panel/urls.py", line 3, in <module>
+    from . import views
+  File "/home/runner/workspace/admin_panel/views.py", line 256, in <module>
+    @method_decorator(staff_member_required(login_url="accounts:signin"), name="dispatch")
+                      ^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'staff_member_required' is not defined
+/home/runner/workspace/admin_panel/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 05, 2026 - 18:52:30
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[05/Jun/2026 18:52:32] [32m"GET /direction/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:52:33] [m"GET /direction/connexion/ HTTP/1.1" 200 5760[0m
+[05/Jun/2026 18:52:51] [m"POST /direction/connexion/ HTTP/1.1" 200 6025[0m
+/home/runner/workspace/admin_panel/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 05, 2026 - 18:53:15
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[05/Jun/2026 18:53:17] [32m"GET /direction/ HTTP/1.1" 302 0[0m
+[05/Jun/2026 18:53:17] [m"GET /direction/connexion/ HTTP/1.1" 200 5760[0m

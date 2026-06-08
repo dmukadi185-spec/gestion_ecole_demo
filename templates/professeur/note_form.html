@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Modifier note — Espace Professeur{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 540px;">
+    <h1 class="h3 mb-4">Modifier la note</h1>
+    <div class="card p-4">
+        <div class="mb-3">
+            <strong>Cours :</strong> {{ note.evaluation_cours.cours.nom }}<br>
+            <strong>Élève :</strong> {{ note.eleve.nom_complet }}
+        </div>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="mb-3">
+                {{ form.valeur.label_tag }}
+                {{ form.valeur }}
+                {% if form.valeur.help_text %}
+                <div class="form-text">{{ form.valeur.help_text }}</div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% url 'professeur:cours_notes' note.evaluation_cours.cours.pk %}" class="btn btn-link">Retour</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

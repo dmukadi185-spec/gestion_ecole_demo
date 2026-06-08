@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Mes élèves — Espace Professeur{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="h3 mb-3">Mes élèves</h1>
+    {% if eleves %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom complet</th>
+                    <th>Classe</th>
+                    <th>Identifiant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for eleve in eleves %}
+                <tr>
+                    <td>{{ eleve.nom_complet }}</td>
+                    <td>{{ eleve.classe }}</td>
+                    <td>{{ eleve.user.identifiant }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">Aucun élève trouvé pour vos classes.</div>
+    {% endif %}
+</div>
+{% endblock %}

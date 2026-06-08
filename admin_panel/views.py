@@ -1,34 +1,41 @@
 from django.contrib.auth import login
-from django.db.models import Count, Sum, Q
-from django.db.models.functions import TruncMonth
+from django.db.models import Count, Sum
 from django.shortcuts import redirect, render
 from django.views import View
 
-from accounts.forms import StaffSignInForm
-from accounts.models import Classe, Eleve, User
+from accounts.forms import DirecteurSignInForm
+from accounts.models import Classe, Directeur, Eleve, User
 from dashboard.models import Cours, Note
 from payments.models import FraisScolaire, Paiement
 
 
-def staff_required(view_func=None):
-    """Decorator: redirects to admin login page if user is not authenticated staff."""
+def directeur_required(view_func=None):
+    """Decorator: redirects to director login page if user is not authenticated or not a directeur."""
     def decorator(func):
         from functools import wraps
         @wraps(func)
         def wrapper(request, *args, **kwargs):
-            if not request.user.is_authenticated or not request.user.is_staff:
+            if not request.user.is_authenticated:
+                return redirect(f"/administration/connexion/?next={request.path}")
+            try:
+                _ = request.user.directeur
+            except Exception:
                 return redirect(f"/administration/connexion/?next={request.path}")
             return func(request, *args, **kwargs)
         return wrapper
     return decorator if view_func is None else decorator(view_func)
 
 
-def staff_required_dispatch(cls):
-    """Class-based view decorator for staff-only access."""
+def directeur_required_dispatch(cls):
+    """Class-based view decorator for directeur-only access."""
     original_dispatch = cls.dispatch
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_staff:
+        if not request.user.is_authenticated:
+            return redirect(f"/administration/connexion/?next={request.path}")
+        try:
+            _ = request.user.directeur
+        except Exception:
             return redirect(f"/administration/connexion/?next={request.path}")
         return original_dispatch(self, request, *args, **kwargs)
 
@@ -40,19 +47,24 @@ class AdminLoginView(View):
     template_name = "admin_panel/login.html"
 
     def get(self, request):
-        if request.user.is_authenticated and request.user.is_staff:
-            return redirect("/administration/")
-        form = StaffSignInForm(request)
+        try:
+            if request.user.is_authenticated and request.user.directeur:
+                return redirect("/administration/")
+        except Exception:
+            pass
+        form = DirecteurSignInForm(request)
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
-        form = StaffSignInForm(request, data=request.POST)
+        form = DirecteurSignInForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
-            if not user.is_staff:
+            try:
+                _ = user.directeur
+            except Exception:
                 return render(request, self.template_name, {
                     "form": form,
-                    "error": "Ce compte n'a pas accès au panneau d'administration.",
+                    "error": "Ce compte n'a pas accès à l'espace directeur.",
                 })
             login(request, user)
             next_url = request.GET.get("next", "/administration/")
@@ -66,7 +78,7 @@ MOIS_ORDER = [
 ]
 
 
-@staff_required_dispatch
+@directeur_required_dispatch
 class DashboardAdminView(View):
     template_name = "admin_panel/dashboard.html"
 
@@ -208,7 +220,7 @@ class DashboardAdminView(View):
         return render(request, self.template_name, context)
 
 
-@staff_required_dispatch
+@directeur_required_dispatch
 class ElevesAdminView(View):
     template_name = "admin_panel/eleves.html"
 
@@ -251,7 +263,7 @@ class ElevesAdminView(View):
         return render(request, self.template_name, context)
 
 
-@staff_required_dispatch
+@directeur_required_dispatch
 class PaiementsAdminView(View):
     template_name = "admin_panel/paiements.html"
 

@@ -93,6 +93,11 @@ class DirecteurSignInForm(BaseAuthForm):
     pass
 
 
+class ProfesseurSignInForm(BaseAuthForm):
+    """Formulaire pour les professeurs — authentification simple sans vérification de rôle."""
+    pass
+
+
 class ActivateAccountForm(forms.Form):
     identifiant = forms.CharField(
         label="Identifiant scolaire",

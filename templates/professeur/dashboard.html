@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Tableau de bord Professeur — Lycée Étoile Brillante{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3">Bonjour, {{ professeur.nom_complet }}</h1>
+            <p class="text-muted">Espace professeur — cours, classes et notes.</p>
+        </div>
+        <div>
+            <a href="{% url 'professeur:cours' %}" class="btn btn-outline-primary me-2">Mes cours</a>
+            <a href="{% url 'professeur:eleves' %}" class="btn btn-outline-secondary">Mes élèves</a>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card p-4 h-100">
+                <h2 class="h5">Cours assignés</h2>
+                <p class="display-6 mb-0">{{ cours|length }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4 h-100">
+                <h2 class="h5">Classes liées</h2>
+                <p class="display-6 mb-0">{{ classes|length }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4 h-100">
+                <h2 class="h5">Élèves concernés</h2>
+                <p class="display-6 mb-0">{{ eleves_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h3 class="h6">Suivi des notes</h3>
+            <p class="mb-0">{{ notes_count }} note{{ notes_count|pluralize }} enregistrée{{ notes_count|pluralize }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

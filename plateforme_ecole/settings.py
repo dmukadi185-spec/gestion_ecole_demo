@@ -37,7 +37,6 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
         {"name": "Site public", "url": "/", "new_window": False},
         {"name": "Panel Admin", "url": "/administration/", "new_window": False},
-        {"name": "Dashboard Direction", "url": "/direction/", "new_window": False},
     ],
     "show_sidebar": True,
     "navigation_expanded": True,
@@ -110,7 +109,7 @@ INSTALLED_APPS = [
     "dashboard",
     "payments",
     "admin_panel",
-    "direction",
+    "professeur",
 ]
 
 MIDDLEWARE = [

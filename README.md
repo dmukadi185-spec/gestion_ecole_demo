@@ -1,6 +1,6 @@
 # Lycée Étoile Brillante — Plateforme Scolaire
 
-Application web Django de gestion scolaire avec trois portails distincts : élèves, administration (staff) et direction.
+Application web Django de gestion scolaire avec quatre portails distincts : élèves, espace directeur, espace professeur et admin Django.
 
 ---
 
@@ -33,13 +33,14 @@ payments/                  ← Module paiements élève
 ├── urls.py                ← /paiements/, /paiements/nouveau/, /paiements/<pk>/recu/
 └── admin.py               ← Enregistrement paiements, frais scolaires
 
-admin_panel/               ← Tableau de bord staff (lecture + filtres)
+admin_panel/               ← Tableau de bord directeur (lecture + filtres)
 ├── views.py               ← AdminLoginView, DashboardAdminView, ElevesAdminView, PaiementsAdminView
 └── urls.py                ← /administration/, /administration/connexion/, /eleves/, /paiements/
 
-direction/                 ← Tableau de bord direction (analytics)
-├── views.py               ← DirecteurLoginView, DashboardDirecteurView, FinancesDirecteurView, ElevesDirecteurView
-└── urls.py                ← /direction/, /direction/connexion/, /finances/, /eleves/
+professeur/                ← Tableau de bord professeur
+├── views.py               ← ProfesseurLoginView, DashboardProfesseurView, CoursProfesseurView, ClassesProfesseurView, ElevesProfesseurView, CoursNotesView, NoteEditView
+├── forms.py               ← NoteForm
+└── urls.py                ← /professeur/, /professeur/connexion/, /professeur/cours/, /professeur/classes/, /professeur/eleves/
 
 templates/                 ← Tous les templates HTML
 ├── base.html              ← Template de base élèves (Bootstrap 5.3.3)
@@ -49,11 +50,11 @@ templates/                 ← Tous les templates HTML
 ├── dashboard/             ← dashboard.html, resultats.html
 ├── payments/              ← paiements.html, effectuer_paiement.html, recu.html
 ├── admin_panel/           ← base_admin.html, login.html, dashboard.html, eleves.html, paiements.html
-└── direction/             ← base_direction.html, login.html, dashboard.html, finances.html, eleves.html
+└── professeur/            ← login.html, dashboard.html, cours.html, classes.html, eleves.html, notes.html, note_form.html
 
 static/
 ├── css/style.css          ← Styles portail élève
-├── css/admin.css          ← Styles dashboards staff/direction (gradient cards, Inter font)
+├── css/admin.css          ← Styles dashboards directeur/professeur (gradient cards, Inter font)
 └── img/logo-ecole.svg     ← Logo SVG de l'école
 ```
 
@@ -72,14 +73,15 @@ static/
 | Historique paiements | `/paiements/` | Élève connecté |
 | Effectuer un paiement | `/paiements/nouveau/` | Élève connecté |
 | Reçu de paiement | `/paiements/<id>/recu/` | Élève connecté |
-| **Connexion Administration** | `/administration/connexion/` | Public → staff |
-| Dashboard Administration | `/administration/` | `is_staff=True` |
-| Liste élèves (staff) | `/administration/eleves/` | `is_staff=True` |
-| Paiements (staff) | `/administration/paiements/` | `is_staff=True` |
-| **Connexion Direction** | `/direction/connexion/` | Public → directeur |
-| Dashboard Direction | `/direction/` | Profil `Directeur` |
-| Finances Direction | `/direction/finances/` | Profil `Directeur` |
-| Élèves Direction | `/direction/eleves/` | Profil `Directeur` |
+| **Connexion Directeur** | `/administration/connexion/` | Public → Directeur |
+| Dashboard Directeur | `/administration/` | Profil `Directeur` |
+| Liste élèves Directeur | `/administration/eleves/` | Profil `Directeur` |
+| Paiements Directeur | `/administration/paiements/` | Profil `Directeur` |
+| **Connexion Professeur** | `/professeur/connexion/` | Public → Professeur |
+| Dashboard Professeur | `/professeur/` | Profil `Professeur` |
+| Cours Professeur | `/professeur/cours/` | Profil `Professeur` |
+| Classes Professeur | `/professeur/classes/` | Profil `Professeur` |
+| Élèves Professeur | `/professeur/eleves/` | Profil `Professeur` |
 | **Admin Django** | `/admin/` | `is_superuser=True` uniquement |
 
 ---
@@ -200,7 +202,7 @@ POST / ou POST /comptes/connexion/
 
     _get_redirect_for_user(user) :
         user.is_staff=True         →  /administration/
-        user.directeur existe      →  /direction/
+        user.directeur existe      →  /administration/
         sinon (élève)              →  /dashboard/
 ```
 
@@ -209,8 +211,8 @@ POST / ou POST /comptes/connexion/
 | Formulaire | Utilisé sur | Vérification spéciale |
 |------------|-------------|----------------------|
 | `SignInForm` | `/` et `/comptes/connexion/` | Bloque si pas `Eleve` (sauf staff/directeur) |
-| `StaffSignInForm` | `/administration/connexion/` | Authentification pure — rôle vérifié dans la vue |
-| `DirecteurSignInForm` | `/direction/connexion/` | Authentification pure — rôle vérifié dans la vue |
+| `DirecteurSignInForm` | `/administration/connexion/` | Authentification pure — rôle vérifié dans la vue |
+| `ProfesseurSignInForm` | `/professeur/connexion/` | Authentification pure — rôle vérifié dans la vue |
 
 ---
 
@@ -225,18 +227,18 @@ def index(request):
         return render_no_eleve_profile(request)  # → 403 avec template dédié
 ```
 
-### Administration staff — décorateur maison sur CBV
-```python
-@staff_required_dispatch  # vérifie request.user.is_staff
-class DashboardAdminView(View):
-    # Si non-staff → redirect /administration/connexion/?next=<url>
-```
-
-### Direction — décorateur maison sur CBV
+### Portail directeur — décorateur maison sur CBV
 ```python
 @directeur_required_dispatch  # vérifie request.user.directeur (OneToOne)
-class DashboardDirecteurView(View):
-    # Si pas de profil Directeur → redirect /direction/connexion/?next=<url>
+class DashboardAdminView(View):
+    # Si pas de profil Directeur → redirect /administration/connexion/?next=<url>
+```
+
+### Portail professeur — décorateur maison sur CBV
+```python
+@professeur_required_dispatch  # vérifie request.user.professeur (OneToOne)
+class DashboardProfesseurView(View):
+    # Si pas de profil Professeur → redirect /professeur/connexion/?next=<url>
 ```
 
 ### Django admin `/admin/` — patch de classe
@@ -304,7 +306,7 @@ def save(self, *args, **kwargs):
 
 ## Requêtes ORM clés (dashboards)
 
-Les vues admin/direction font des agrégations Django ORM sérialisées en JSON pour Chart.js :
+Les vues admin/directeur et professeur font des agrégations Django ORM sérialisées en JSON pour Chart.js :
 
 ```python
 # Total encaissé
@@ -336,9 +338,9 @@ Paiement.objects.filter(statut="paye")
 | Identifiant | Rôle | Connexion via |
 |-------------|------|---------------|
 | `ADMIN` | Superuser | `/admin/` |
-| `DIRECTEUR-GEN` | Staff + Directeur | `/administration/` et `/direction/` |
-| `DIRECTEUR1` | Staff | `/administration/` |
-| `DIR-TEST` | Directeur | `/direction/` |
+| `DIRECTEUR-GEN` | Directeur | `/administration/` |
+| `DIRECTEUR1` | Directeur | `/administration/` |
+| `PROF-DOE` | Professeur | `/professeur/` |
 | `MUKENDI KABONGO JEAN` | Élève | `/dashboard/` |
 
 ---

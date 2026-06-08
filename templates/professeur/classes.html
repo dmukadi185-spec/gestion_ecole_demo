@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Mes classes — Espace Professeur{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="h3 mb-3">Classes associées</h1>
+    {% if classes %}
+    <div class="list-group">
+        {% for classe in classes %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ classe }}</strong>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">Aucune classe associée pour le moment.</div>
+    {% endif %}
+</div>
+{% endblock %}

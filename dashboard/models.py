@@ -6,6 +6,20 @@ from accounts.models import Eleve
 
 class Cours(models.Model):
     nom = models.CharField(max_length=150)
+    professeur = models.ForeignKey(
+        "accounts.Professeur",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="cours",
+    )
+    classe = models.ForeignKey(
+        "accounts.Classe",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="cours",
+    )
 
     class Meta:
         verbose_name = "cours"

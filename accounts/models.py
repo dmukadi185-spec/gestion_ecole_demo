@@ -100,6 +100,30 @@ class Directeur(models.Model):
         return True
 
 
+class Professeur(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="professeur")
+    nom = models.CharField(max_length=100, blank=True)
+    postnom = models.CharField(max_length=100, blank=True)
+    prenom = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = "professeur"
+        verbose_name_plural = "professeurs"
+
+    def __str__(self):
+        parts = [p for p in [self.prenom, self.nom, self.postnom] if p]
+        return " ".join(parts) if parts else self.user.identifiant
+
+    @property
+    def nom_complet(self):
+        parts = [p for p in [self.prenom, self.nom, self.postnom] if p]
+        return " ".join(parts) if parts else self.user.identifiant
+
+    @property
+    def is_professeur(self):
+        return True
+
+
 class Eleve(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="eleve")
     nom = models.CharField(max_length=100)
