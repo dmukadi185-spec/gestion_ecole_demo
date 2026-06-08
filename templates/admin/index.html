@@ -1,0 +1,204 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <div class="row mb-4">
+    <div class="col-12">
+      <h4 class="mb-1" style="font-weight:700; color:#2c3e50;">
+        <i class="fas fa-th-large mr-2" style="color:#3498db;"></i>
+        Gestion de l'école
+      </h4>
+      <p class="text-muted mb-0">Sélectionnez un module pour ajouter ou modifier des données.</p>
+    </div>
+  </div>
+
+  <!-- Comptes & Élèves -->
+  <div class="row mb-2">
+    <div class="col-12">
+      <h5 class="text-uppercase text-muted" style="font-size:0.75rem; letter-spacing:1px; font-weight:700;">
+        <i class="fas fa-users mr-1"></i> Comptes &amp; Élèves
+      </h5>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:accounts_eleve_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; transition:.2s; background:linear-gradient(135deg,#e8f5e9,#c8e6c9);">
+          <i class="fas fa-user-graduate fa-2x mb-2" style="color:#2e7d32;"></i>
+          <div style="font-weight:700; color:#1b5e20;">Élèves</div>
+          <small class="text-muted">Ajouter / modifier</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:accounts_eleve_add' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#e3f2fd,#bbdefb);">
+          <i class="fas fa-user-plus fa-2x mb-2" style="color:#1565c0;"></i>
+          <div style="font-weight:700; color:#0d47a1;">Ajouter élève</div>
+          <small class="text-muted">Nouvel enregistrement</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:accounts_classe_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#fff8e1,#ffe082);">
+          <i class="fas fa-school fa-2x mb-2" style="color:#f57f17;"></i>
+          <div style="font-weight:700; color:#e65100;">Classes</div>
+          <small class="text-muted">Gérer les classes</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:accounts_directeur_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#fce4ec,#f48fb1);">
+          <i class="fas fa-user-tie fa-2x mb-2" style="color:#880e4f;"></i>
+          <div style="font-weight:700; color:#880e4f;">Directeurs</div>
+          <small class="text-muted">Gérer les directeurs</small>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Utilisateurs système -->
+  <div class="row mb-2">
+    <div class="col-12">
+      <h5 class="text-uppercase text-muted" style="font-size:0.75rem; letter-spacing:1px; font-weight:700;">
+        <i class="fas fa-cog mr-1"></i> Système
+      </h5>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:accounts_user_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#ede7f6,#b39ddb);">
+          <i class="fas fa-user fa-2x mb-2" style="color:#4527a0;"></i>
+          <div style="font-weight:700; color:#311b92;">Utilisateurs</div>
+          <small class="text-muted">Comptes système</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:auth_group_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#e0f7fa,#80deea);">
+          <i class="fas fa-users-cog fa-2x mb-2" style="color:#006064;"></i>
+          <div style="font-weight:700; color:#004d40;">Groupes</div>
+          <small class="text-muted">Permissions</small>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Paiements -->
+  <div class="row mb-2">
+    <div class="col-12">
+      <h5 class="text-uppercase text-muted" style="font-size:0.75rem; letter-spacing:1px; font-weight:700;">
+        <i class="fas fa-money-bill-wave mr-1"></i> Paiements
+      </h5>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:payments_paiement_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#e8f5e9,#a5d6a7);">
+          <i class="fas fa-money-bill-wave fa-2x mb-2" style="color:#1b5e20;"></i>
+          <div style="font-weight:700; color:#1b5e20;">Paiements</div>
+          <small class="text-muted">Consulter / modifier</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:payments_fraisscolaire_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#fff3e0,#ffcc80);">
+          <i class="fas fa-file-invoice-dollar fa-2x mb-2" style="color:#e65100;"></i>
+          <div style="font-weight:700; color:#bf360c;">Frais scolaires</div>
+          <small class="text-muted">Tarifs &amp; mensualités</small>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Notes & Cours -->
+  <div class="row mb-2">
+    <div class="col-12">
+      <h5 class="text-uppercase text-muted" style="font-size:0.75rem; letter-spacing:1px; font-weight:700;">
+        <i class="fas fa-book mr-1"></i> Cours &amp; Notes
+      </h5>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:dashboard_cours_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#e3f2fd,#90caf9);">
+          <i class="fas fa-book fa-2x mb-2" style="color:#0d47a1;"></i>
+          <div style="font-weight:700; color:#0d47a1;">Cours</div>
+          <small class="text-muted">Matières</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:dashboard_evaluation_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#fce4ec,#ef9a9a);">
+          <i class="fas fa-clipboard-list fa-2x mb-2" style="color:#b71c1c;"></i>
+          <div style="font-weight:700; color:#b71c1c;">Évaluations</div>
+          <small class="text-muted">Types d'examens</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:dashboard_note_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#fff8e1,#fff176);">
+          <i class="fas fa-star fa-2x mb-2" style="color:#f57f17;"></i>
+          <div style="font-weight:700; color:#e65100;">Notes</div>
+          <small class="text-muted">Résultats élèves</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <a href="{% url 'admin:dashboard_evaluationcours_changelist' %}" class="text-decoration-none">
+        <div class="card h-100 border-0 shadow-sm text-center p-3" style="border-radius:12px; background:linear-gradient(135deg,#e8eaf6,#9fa8da);">
+          <i class="fas fa-link fa-2x mb-2" style="color:#283593;"></i>
+          <div style="font-weight:700; color:#283593;">Config. éval.</div>
+          <small class="text-muted">Éval. par cours</small>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Actions récentes -->
+  {% if action_list %}
+  <div class="row mb-2">
+    <div class="col-12">
+      <h5 class="text-uppercase text-muted" style="font-size:0.75rem; letter-spacing:1px; font-weight:700;">
+        <i class="fas fa-history mr-1"></i> Actions récentes
+      </h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm" style="border-radius:12px;">
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush" style="border-radius:12px;">
+            {% for entry in action_list %}
+            <li class="list-group-item d-flex align-items-center" style="border-left:none;border-right:none;">
+              {% if entry.is_addition %}
+                <span class="badge badge-success mr-2" style="background:#2ecc71;">+</span>
+              {% elif entry.is_change %}
+                <span class="badge badge-primary mr-2" style="background:#3498db;">✎</span>
+              {% else %}
+                <span class="badge badge-danger mr-2" style="background:#e74c3c;">✕</span>
+              {% endif %}
+              <span>{{ entry.object_repr }}</span>
+              <small class="ml-auto text-muted">{{ entry.content_type }}</small>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
