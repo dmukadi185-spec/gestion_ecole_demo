@@ -1,0 +1,74 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}Notes{% endblock %}
+{% block nav_notes %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">Notes</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">Consultation des notes</h1>
+        <p class="page-subtitle">{{ total_notes }} note{{ total_notes|pluralize }} enregistrée{{ total_notes|pluralize }}</p>
+    </div>
+</div>
+
+<div class="filter-bar">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-12 col-sm-auto">
+            <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:#475569;">Classe</label>
+            <select name="classe" class="form-select form-select-sm" style="min-width:180px;" onchange="this.form.submit()">
+                <option value="">Toutes les classes</option>
+                {% for cls in classes %}
+                <option value="{{ cls.pk }}" {% if classe_actif == cls.pk|stringformat:"s" %}selected{% endif %}>{{ cls }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <label class="form-label mb-1" style="font-size:12px;font-weight:600;color:#475569;">Cours</label>
+            <select name="cours" class="form-select form-select-sm" style="min-width:200px;">
+                <option value="">Tous les cours</option>
+                {% for c in cours_list %}
+                <option value="{{ c.pk }}" {% if cours_actif == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.nom }} ({{ c.classe }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 col-sm-auto">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-funnel me-1"></i>Filtrer</button>
+            <a href="{% url 'admin_panel:notes' %}" class="btn btn-sm btn-outline-secondary ms-1">Réinit.</a>
+        </div>
+    </form>
+</div>
+
+<div class="admin-card">
+    <div style="overflow-x:auto;">
+        <table class="admin-table">
+            <thead><tr>
+                <th>Élève</th>
+                <th>Classe</th>
+                <th>Cours</th>
+                <th>Évaluation</th>
+                <th>Période</th>
+                <th class="text-center">Note</th>
+                <th class="text-center">Max</th>
+            </tr></thead>
+            <tbody>
+            {% for note in notes %}
+            <tr>
+                <td class="fw-med">{{ note.eleve.nom_complet }}</td>
+                <td style="color:#64748b;">{{ note.eleve.classe|default:"—" }}</td>
+                <td>{{ note.evaluation_cours.cours.nom }}</td>
+                <td style="color:#64748b;">{{ note.evaluation_cours.evaluation.get_type_display }}</td>
+                <td style="color:#64748b;">{{ note.evaluation_cours.evaluation.get_periode_display }}</td>
+                <td class="text-center fw-med" style="color:#1e40af;">{{ note.valeur }}</td>
+                <td class="text-center" style="color:#94a3b8;">{{ note.evaluation_cours.note_max }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7"><div class="empty-state"><i class="bi bi-clipboard-data"></i><p>Aucune note trouvée</p></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

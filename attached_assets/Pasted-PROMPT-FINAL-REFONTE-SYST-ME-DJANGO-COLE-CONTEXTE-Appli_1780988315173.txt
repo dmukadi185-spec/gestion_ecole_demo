@@ -1,0 +1,179 @@
+PROMPT FINAL — REFONTE SYSTÈME DJANGO (ÉCOLE)
+
+## 🔷 CONTEXTE
+
+Application scolaire Django avec une architecture simplifiée basée uniquement sur deux rôles :
+
+* Directeur (administration complète du système)
+* Professeur (gestion des notes uniquement)
+
+Toute l’architecture doit être nettoyée, corrigée et simplifiée.
+
+---
+
+# 1. 🔥 SUPPRESSION COMPLÈTE DES ANCIENS RÔLES
+
+## Objectif
+
+Éliminer totalement toute complexité inutile liée aux anciens rôles.
+
+## À SUPPRIMER DÉFINITIVEMENT
+
+Tous les rôles suivants doivent être retirés du projet :
+
+* Directeur Général
+* Directeur Adjoint
+* Préfet des Études
+* Censeur
+* Tout autre rôle intermédiaire ou ancien système
+
+## À CONSERVER UNIQUEMENT
+
+* Directeur
+* Professeur
+
+---
+
+## IMPACT GLOBAL OBLIGATOIRE
+
+Aucune trace des anciens rôles ne doit exister dans :
+
+* modèles Django
+* formulaires
+* vues
+* permissions (groups / permissions / decorators)
+* middleware
+* navigation / menus
+* dashboard
+* templates
+* administration Django
+
+Le système doit être entièrement basé sur les deux rôles restants.
+
+---
+
+# 2. 🧑‍🏫 ESPACE PROFESSEUR (CORRIGER ET FINALISER)
+
+## Problème actuel
+
+Le professeur ne peut que modifier des notes existantes.
+
+## OBJECTIF
+
+Le professeur doit pouvoir gérer complètement les notes.
+
+## FONCTIONNALITÉS OBLIGATOIRES
+
+Le professeur peut uniquement gérer ses propres données :
+
+### NOTES
+
+* Ajouter une nouvelle note
+* Modifier une note existante
+* Supprimer une note
+* Consulter les notes
+
+---
+
+## RÈGLES DE SÉCURITÉ STRICTES
+
+Le professeur doit être limité à :
+
+* ses propres cours uniquement
+* ses propres classes uniquement
+* les élèves appartenant à ses classes uniquement
+
+---
+
+## CONTRAINTE ABSOLUE
+
+Le professeur ne doit jamais pouvoir accéder ou modifier :
+
+* cours d’autres professeurs
+* classes non assignées
+* élèves hors de ses classes
+* notes globales de l’établissement
+
+---
+
+# 3. 👨‍💼 ESPACE DIRECTEUR (CORRECTION COMPLÈTE)
+
+## Problème actuel
+
+Le directeur ne fonctionne pas correctement et ne peut pas effectuer toutes les actions prévues.
+
+## OBJECTIF
+
+Le directeur doit être le véritable administrateur métier de l’application.
+
+---
+
+## FONCTIONNALITÉS OBLIGATOIRES
+
+### 1. ÉLÈVES (CRUD COMPLET)
+
+* Ajouter un élève
+* Modifier un élève
+* Supprimer un élève
+* Lister tous les élèves
+
+---
+
+### 2. PROFESSEURS
+
+* Créer un professeur avec compte utilisateur + mot de passe fonctionnel
+* Modifier un professeur
+* Supprimer un professeur
+* Lister tous les professeurs
+
+---
+
+### 3. COURS
+
+Lors de la création d’un cours, le directeur doit obligatoirement associer :
+
+* un professeur
+* une classe
+
+Opérations :
+
+* Ajouter un cours
+* Modifier un cours
+* Supprimer un cours
+* Lister tous les cours
+
+---
+
+### 4. NOTES (CONSULTATION UNIQUEMENT)
+
+* Le directeur peut consulter toutes les notes
+* Il ne doit pas nécessairement pouvoir les modifier
+
+---
+
+# 4. 🧠 CORRECTIONS TECHNIQUES À EFFECTUER
+
+Corriger tous les problèmes en vérifiant :
+
+* permissions Django (Groups, Permissions, decorators personnalisés)
+* vues du dashboard directeur
+* vues du dashboard professeur
+* formulaires associés aux rôles
+* middleware éventuels bloquants
+* URLs manquantes ou inaccessibles
+* templates cachant des actions (boutons, liens, menus)
+* logique métier dans les services ou managers
+* cohérence entre interface et backend
+
+---
+
+# 5. 🎯 OBJECTIF FINAL DU SYSTÈME
+
+À la fin des corrections :
+
+* seuls deux rôles existent : Directeur et Professeur
+* le Directeur administre entièrement l’établissement sans passer par Django admin
+* le Professeur gère uniquement les notes de ses classes
+* toutes les permissions sont correctement appliquées et sécurisées
+* aucune erreur de migration, permission ou affichage n’existe
+* l’interface est cohérente, propre et simplifiée

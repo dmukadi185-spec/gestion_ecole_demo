@@ -67,19 +67,10 @@ class Classe(models.Model):
 
 
 class Directeur(models.Model):
-    TITRE_CHOICES = [
-        ("directeur_general", "Directeur Général"),
-        ("directeur_adjoint", "Directeur Adjoint"),
-        ("censeur", "Censeur"),
-        ("prefet", "Préfet des études"),
-        ("autre", "Autre"),
-    ]
-
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="directeur")
     nom = models.CharField(max_length=100, blank=True)
     postnom = models.CharField(max_length=100, blank=True)
     prenom = models.CharField(max_length=100, blank=True)
-    titre = models.CharField(max_length=30, choices=TITRE_CHOICES, default="directeur_general")
 
     class Meta:
         verbose_name = "directeur"
@@ -88,7 +79,7 @@ class Directeur(models.Model):
     def __str__(self):
         parts = [p for p in [self.prenom, self.nom, self.postnom] if p]
         name = " ".join(parts) if parts else self.user.identifiant
-        return f"{self.get_titre_display()} — {name}"
+        return f"Directeur — {name}"
 
     @property
     def nom_complet(self):

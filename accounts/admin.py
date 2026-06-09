@@ -54,16 +54,15 @@ class ClasseAdmin(admin.ModelAdmin):
 
 @admin.register(Directeur)
 class DirecteurAdmin(admin.ModelAdmin):
-    list_display = ("nom_display", "titre", "identifiant_display", "compte_actif")
-    list_filter = ("titre",)
+    list_display = ("nom_display", "identifiant_display", "compte_actif")
     search_fields = ("nom", "postnom", "prenom", "user__identifiant")
-    fields = ("titre", "nom", "postnom", "prenom")
+    fields = ("nom", "postnom", "prenom")
     readonly_fields = ("compte_actif",)
 
     def get_fields(self, request, obj=None):
         if obj:
-            return ("titre", "nom", "postnom", "prenom")
-        return ("identifiant_input", "password_input", "titre", "nom", "postnom", "prenom")
+            return ("nom", "postnom", "prenom")
+        return ("identifiant_input", "password_input", "nom", "postnom", "prenom")
 
     def get_form(self, request, obj=None, **kwargs):
         from django import forms
@@ -82,7 +81,7 @@ class DirecteurAdmin(admin.ModelAdmin):
 
             class Meta:
                 model = Directeur
-                fields = ["titre", "nom", "postnom", "prenom"]
+                fields = ["nom", "postnom", "prenom"]
 
         if obj:
             kwargs["form"] = super().get_form(request, obj, **kwargs)

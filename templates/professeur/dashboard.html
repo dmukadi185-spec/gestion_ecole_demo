@@ -3,41 +3,72 @@
 
 {% block content %}
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
         <div>
-            <h1 class="h3">Bonjour, {{ professeur.nom_complet }}</h1>
-            <p class="text-muted">Espace professeur — cours, classes et notes.</p>
+            <h1 class="h3 mb-1">Bonjour, {{ professeur.nom_complet }}</h1>
+            <p class="text-muted mb-0">Espace professeur — gestion de vos cours et notes.</p>
         </div>
-        <div>
-            <a href="{% url 'professeur:cours' %}" class="btn btn-outline-primary me-2">Mes cours</a>
-            <a href="{% url 'professeur:eleves' %}" class="btn btn-outline-secondary">Mes élèves</a>
-        </div>
-    </div>
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="card p-4 h-100">
-                <h2 class="h5">Cours assignés</h2>
-                <p class="display-6 mb-0">{{ cours|length }}</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card p-4 h-100">
-                <h2 class="h5">Classes liées</h2>
-                <p class="display-6 mb-0">{{ classes|length }}</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card p-4 h-100">
-                <h2 class="h5">Élèves concernés</h2>
-                <p class="display-6 mb-0">{{ eleves_count }}</p>
-            </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="{% url 'professeur:cours' %}" class="btn btn-primary">
+                <i class="bi bi-book me-1"></i>Mes cours
+            </a>
+            <a href="{% url 'professeur:eleves' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-people me-1"></i>Mes élèves
+            </a>
         </div>
     </div>
-    <div class="card mt-4">
-        <div class="card-body">
-            <h3 class="h6">Suivi des notes</h3>
-            <p class="mb-0">{{ notes_count }} note{{ notes_count|pluralize }} enregistrée{{ notes_count|pluralize }}</p>
+
+    <div class="row g-4 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4 h-100 text-center">
+                <div style="font-size:2rem;font-weight:700;color:#2563eb;">{{ cours|length }}</div>
+                <div class="text-muted" style="font-size:13px;">Cours assignés</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4 h-100 text-center">
+                <div style="font-size:2rem;font-weight:700;color:#0891b2;">{{ classes|length }}</div>
+                <div class="text-muted" style="font-size:13px;">Classes liées</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4 h-100 text-center">
+                <div style="font-size:2rem;font-weight:700;color:#7c3aed;">{{ eleves_count }}</div>
+                <div class="text-muted" style="font-size:13px;">Élèves concernés</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4 h-100 text-center">
+                <div style="font-size:2rem;font-weight:700;color:#16a34a;">{{ notes_count }}</div>
+                <div class="text-muted" style="font-size:13px;">Notes enregistrées</div>
+            </div>
         </div>
     </div>
+
+    {% if cours %}
+    <div class="card border-0 shadow-sm">
+        <div class="card-header py-3" style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+            <h2 class="h6 mb-0 fw-semibold"><i class="bi bi-book-fill me-2" style="color:#2563eb;"></i>Mes cours — accès rapide aux notes</h2>
+        </div>
+        <div class="list-group list-group-flush">
+            {% for c in cours %}
+            <a href="{% url 'professeur:cours_notes' c.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 px-4">
+                <div>
+                    <span class="fw-semibold" style="color:#0f172a;">{{ c.nom }}</span>
+                    {% if c.classe %}
+                    <span class="text-muted ms-2" style="font-size:13px;">— {{ c.classe }}</span>
+                    {% endif %}
+                </div>
+                <span class="badge bg-primary rounded-pill">Gérer les notes <i class="bi bi-chevron-right ms-1"></i></span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>
+        Aucun cours ne vous est assigné pour le moment. Contactez l'administration.
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

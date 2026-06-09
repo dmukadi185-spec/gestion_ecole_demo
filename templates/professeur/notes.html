@@ -5,60 +5,90 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h3">Notes — {{ cours.nom }}</h1>
-            <p class="text-muted">Classe : {{ cours.classe }}</p>
+            <h1 class="h3 mb-1">Notes — {{ cours.nom }}</h1>
+            <p class="text-muted mb-0">Classe : <strong>{{ cours.classe }}</strong></p>
         </div>
-        <a href="{% url 'professeur:cours' %}" class="btn btn-outline-secondary">Retour aux cours</a>
+        <a href="{% url 'professeur:cours' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Retour aux cours
+        </a>
     </div>
-    {% if evaluations %}
-    <div class="list-group mb-4">
-        {% for evaluation in evaluations %}
-        <div class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <strong>{{ evaluation.evaluation }}</strong>
-                    <div class="text-muted">Max : {{ evaluation.note_max }} — Pondération : {{ evaluation.ponderation }}%</div>
-                </div>
+
+    {% if not evaluations_data %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>
+        Aucune évaluation n'est configurée pour ce cours. Contactez l'administration.
+    </div>
+    {% endif %}
+
+    {% for section in evaluations_data %}
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center py-3" style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+            <div>
+                <span class="fw-semibold" style="color:#1e293b;">{{ section.evaluation_cours.evaluation }}</span>
+                <span class="text-muted ms-2" style="font-size:13px;">
+                    — Max : {{ section.evaluation_cours.note_max }} — Pondération : {{ section.evaluation_cours.ponderation }}%
+                </span>
             </div>
+            <span class="badge bg-primary rounded-pill" style="font-size:11px;">
+                {{ section.evaluation_cours.evaluation.get_semestre_display }}
+            </span>
         </div>
-        {% endfor %}
+
+        {% if section.rows %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead style="background:#f1f5f9;">
+                    <tr>
+                        <th style="font-size:12px;font-weight:600;color:#64748b;padding:10px 16px;">Élève</th>
+                        <th class="text-center" style="font-size:12px;font-weight:600;color:#64748b;padding:10px 16px;">Note</th>
+                        <th class="text-center" style="font-size:12px;font-weight:600;color:#64748b;padding:10px 16px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in section.rows %}
+                    <tr>
+                        <td style="padding:10px 16px;">
+                            <span class="fw-semibold" style="font-size:14px;">{{ row.eleve.nom_complet }}</span>
+                        </td>
+                        <td class="text-center" style="padding:10px 16px;">
+                            {% if row.note %}
+                            <span class="badge rounded-pill" style="background:#dbeafe;color:#1d4ed8;font-size:14px;padding:5px 14px;">
+                                {{ row.note.valeur }} / {{ section.evaluation_cours.note_max }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted" style="font-size:13px;">— pas de note —</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center" style="padding:10px 16px;white-space:nowrap;">
+                            {% if row.note %}
+                            <a href="{% url 'professeur:note_edit' row.note.pk %}" class="btn btn-sm btn-outline-primary me-1" title="Modifier">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <form method="post" action="{% url 'professeur:note_delete' row.note.pk %}" class="d-inline"
+                                  onsubmit="return confirm('Supprimer la note de {{ row.eleve.nom_complet }} ?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </form>
+                            {% else %}
+                            <a href="{% url 'professeur:note_add' section.evaluation_cours.pk row.eleve.pk %}" class="btn btn-sm btn-success" title="Ajouter une note">
+                                <i class="bi bi-plus-lg me-1"></i>Ajouter
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="card-body text-center text-muted py-4">
+            <i class="bi bi-people" style="font-size:1.5rem;"></i>
+            <p class="mb-0 mt-2">Aucun élève rattaché à cette classe.</p>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-    {% if eleve_rows %}
-    <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-            <thead>
-                <tr>
-                    <th>Élève</th>
-                    <th>Note enregistrée</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in eleve_rows %}
-                <tr>
-                    <td>{{ row.eleve.nom_complet }}<br><small>{{ row.eleve.user.identifiant }}</small></td>
-                    <td>
-                        {% if row.note %}
-                            {{ row.note.valeur }}
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if row.note %}
-                        <a href="{% url 'professeur:note_edit' row.note.pk %}" class="btn btn-sm btn-primary">Modifier</a>
-                        {% else %}
-                        <span class="text-muted">Pas de note</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <div class="alert alert-info">Aucun élève n’est rattaché à cette classe.</div>
-    {% endif %}
+    {% endfor %}
 </div>
 {% endblock %}

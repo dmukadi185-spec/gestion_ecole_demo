@@ -1,26 +1,46 @@
 {% extends 'base.html' %}
-{% block title %}Modifier note — Espace Professeur{% endblock %}
+{% block title %}{% if mode == "add" %}Ajouter{% else %}Modifier{% endif %} note — Espace Professeur{% endblock %}
 
 {% block content %}
 <div class="container py-5" style="max-width: 540px;">
-    <h1 class="h3 mb-4">Modifier la note</h1>
-    <div class="card p-4">
-        <div class="mb-3">
-            <strong>Cours :</strong> {{ note.evaluation_cours.cours.nom }}<br>
-            <strong>Élève :</strong> {{ note.eleve.nom_complet }}
+    <h1 class="h3 mb-4">
+        {% if mode == "add" %}Ajouter une note{% else %}Modifier la note{% endif %}
+    </h1>
+    <div class="card shadow-sm border-0 p-4">
+        <div class="mb-4 pb-3" style="border-bottom:1px solid #e2e8f0;">
+            <div class="mb-1"><span style="font-size:12px;font-weight:600;color:#64748b;text-transform:uppercase;">Cours</span></div>
+            <div class="fw-semibold">{{ eval_cours.cours.nom }}</div>
+            <div class="text-muted" style="font-size:13px;">{{ eval_cours.cours.classe }}</div>
         </div>
+        <div class="mb-4 pb-3" style="border-bottom:1px solid #e2e8f0;">
+            <div class="mb-1"><span style="font-size:12px;font-weight:600;color:#64748b;text-transform:uppercase;">Évaluation</span></div>
+            <div class="fw-semibold">{{ eval_cours.evaluation }}</div>
+            <div class="text-muted" style="font-size:13px;">Note max : {{ eval_cours.note_max }} — Pondération : {{ eval_cours.ponderation }}%</div>
+        </div>
+        <div class="mb-4 pb-3" style="border-bottom:1px solid #e2e8f0;">
+            <div class="mb-1"><span style="font-size:12px;font-weight:600;color:#64748b;text-transform:uppercase;">Élève</span></div>
+            <div class="fw-semibold">{{ eleve.nom_complet }}</div>
+        </div>
+
         <form method="post" novalidate>
             {% csrf_token %}
             {{ form.non_field_errors }}
-            <div class="mb-3">
-                {{ form.valeur.label_tag }}
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Note obtenue <span class="text-danger">*</span></label>
                 {{ form.valeur }}
                 {% if form.valeur.help_text %}
                 <div class="form-text">{{ form.valeur.help_text }}</div>
                 {% endif %}
+                {% if form.valeur.errors %}
+                <div class="invalid-feedback d-block">{{ form.valeur.errors.0 }}</div>
+                {% endif %}
             </div>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-            <a href="{% url 'professeur:cours_notes' note.evaluation_cours.cours.pk %}" class="btn btn-link">Retour</a>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i>Enregistrer
+                </button>
+                <a href="{% url 'professeur:cours_notes' eval_cours.cours.pk %}" class="btn btn-outline-secondary">Annuler</a>
+            </div>
         </form>
     </div>
 </div>

@@ -1,0 +1,61 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}Cours{% endblock %}
+{% block nav_cours %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">Cours</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">Gestion des cours</h1>
+        <p class="page-subtitle">{{ cours|length }} cours au programme</p>
+    </div>
+    <a href="{% url 'admin_panel:cours_create' %}" class="btn btn-sm btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>Nouveau cours
+    </a>
+</div>
+
+<div class="admin-card">
+    <div style="overflow-x:auto;">
+        <table class="admin-table">
+            <thead><tr>
+                <th>Cours</th>
+                <th>Professeur</th>
+                <th>Classe</th>
+                <th class="text-center">Actions</th>
+            </tr></thead>
+            <tbody>
+            {% for c in cours %}
+            <tr>
+                <td class="fw-med">{{ c.nom }}</td>
+                <td>
+                    {% if c.professeur %}
+                    <span style="color:#1e40af;">{{ c.professeur.nom_complet }}</span>
+                    {% else %}
+                    <span style="color:#94a3b8;">— Non assigné —</span>
+                    {% endif %}
+                </td>
+                <td>{{ c.classe|default:"—" }}</td>
+                <td class="text-center" style="white-space:nowrap;">
+                    <a href="{% url 'admin_panel:cours_edit' c.pk %}" class="btn btn-xs btn-outline-primary me-1" title="Modifier">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <form method="post" action="{% url 'admin_panel:cours_delete' c.pk %}" class="d-inline"
+                          onsubmit="return confirm('Supprimer le cours « {{ c.nom }} » ? Les notes associées seront également supprimées.');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-xs btn-outline-danger" title="Supprimer">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4"><div class="empty-state"><i class="bi bi-book"></i><p>Aucun cours enregistré</p></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

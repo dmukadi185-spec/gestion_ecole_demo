@@ -1,0 +1,60 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}{{ action }} un cours{% endblock %}
+{% block nav_cours %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<a href="{% url 'admin_panel:cours' %}" class="breadcrumb-item">Cours</a>
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">{{ action }}</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">{{ action }} un cours</h1>
+        <p class="page-subtitle">
+            {% if action == "Ajouter" %}Définissez le cours, le professeur responsable et la classe concernée.
+            {% else %}Modification du cours « {{ cours.nom }} ».{% endif %}
+        </p>
+    </div>
+    <a href="{% url 'admin_panel:cours' %}" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Retour
+    </a>
+</div>
+
+<div class="admin-card" style="max-width:480px;">
+    <div class="admin-card-body" style="padding:24px;">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger py-2 small">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold" style="font-size:13px;">Nom du cours <span class="text-danger">*</span></label>
+                {{ form.nom }}
+                {% if form.nom.errors %}<div class="invalid-feedback d-block small">{{ form.nom.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold" style="font-size:13px;">Professeur <span class="text-danger">*</span></label>
+                {{ form.professeur }}
+                {% if form.professeur.errors %}<div class="invalid-feedback d-block small">{{ form.professeur.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-semibold" style="font-size:13px;">Classe <span class="text-danger">*</span></label>
+                {{ form.classe }}
+                {% if form.classe.errors %}<div class="invalid-feedback d-block small">{{ form.classe.errors.0 }}</div>{% endif %}
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i>{{ action }}
+                </button>
+                <a href="{% url 'admin_panel:cours' %}" class="btn btn-outline-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -18,8 +18,8 @@
         <a href="{% url 'admin_panel:paiements' %}" class="welcome-btn light">
             <i class="bi bi-cash-stack"></i> Paiements
         </a>
-        <a href="{% url 'admin:index' %}" target="_blank" class="welcome-btn white">
-            <i class="bi bi-gear-fill"></i> Admin Django
+        <a href="{% url 'admin_panel:eleves' %}" class="welcome-btn white">
+            <i class="bi bi-people-fill"></i> Élèves
         </a>
     </div>
 </div>
@@ -34,17 +34,23 @@
             </div>
             <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
         </div>
-        <div class="stat-trend"><i class="bi bi-building"></i> {{ total_classes }} classe{{ total_classes|pluralize }} actives</div>
+        <div class="stat-trend">
+            <i class="bi bi-building"></i>
+            <a href="{% url 'admin_panel:eleves' %}" style="color:inherit;">{{ total_classes }} classe{{ total_classes|pluralize }} actives</a>
+        </div>
     </div>
     <div class="stat-card teal">
         <div class="stat-row">
             <div>
-                <div class="stat-value">{{ total_classes }}</div>
-                <div class="stat-label">Classes actives</div>
+                <div class="stat-value">{{ total_professeurs }}</div>
+                <div class="stat-label">Professeurs</div>
             </div>
-            <div class="stat-icon"><i class="bi bi-building"></i></div>
+            <div class="stat-icon"><i class="bi bi-person-badge-fill"></i></div>
         </div>
-        <div class="stat-trend"><i class="bi bi-book"></i> {{ total_cours }} cours au programme</div>
+        <div class="stat-trend">
+            <i class="bi bi-book"></i>
+            <a href="{% url 'admin_panel:cours' %}" style="color:inherit;">{{ total_cours }} cours au programme</a>
+        </div>
     </div>
     <div class="stat-card purple">
         <div class="stat-row">

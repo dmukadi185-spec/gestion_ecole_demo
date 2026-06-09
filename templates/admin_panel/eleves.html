@@ -12,7 +12,7 @@
         <h1 class="page-title">Gestion des élèves</h1>
         <p class="page-subtitle">{{ eleves_data|length }} élève{{ eleves_data|length|pluralize }} affiché{{ eleves_data|length|pluralize }}</p>
     </div>
-    <a href="{% url 'admin:accounts_eleve_add' %}" target="_blank" class="btn btn-sm btn-primary">
+    <a href="{% url 'admin_panel:eleve_create' %}" class="btn btn-sm btn-primary">
         <i class="bi bi-plus-lg me-1"></i>Nouvel élève
     </a>
 </div>
@@ -54,6 +54,7 @@
                 <th class="text-end">Montant payé</th>
                 <th class="text-center">Compte</th>
                 <th class="text-center">Mot de passe</th>
+                <th class="text-center">Actions</th>
             </tr></thead>
             <tbody>
             {% for item in eleves_data %}
@@ -85,9 +86,20 @@
                     <span class="status-badge attente"><i class="bi bi-lock"></i>En attente</span>
                     {% endif %}
                 </td>
+                <td class="text-center" style="white-space:nowrap;">
+                    <a href="{% url 'admin_panel:eleve_edit' item.eleve.pk %}" class="btn btn-xs btn-outline-primary me-1" title="Modifier">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <form method="post" action="{% url 'admin_panel:eleve_delete' item.eleve.pk %}" class="d-inline" onsubmit="return confirm('Supprimer cet élève ? Cette action est irréversible.');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-xs btn-outline-danger" title="Supprimer">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
+                </td>
             </tr>
             {% empty %}
-            <tr><td colspan="7"><div class="empty-state"><i class="bi bi-people"></i><p>Aucun élève trouvé</p></div></td></tr>
+            <tr><td colspan="8"><div class="empty-state"><i class="bi bi-people"></i><p>Aucun élève trouvé</p></div></td></tr>
             {% endfor %}
             </tbody>
         </table>

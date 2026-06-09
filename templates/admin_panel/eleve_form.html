@@ -1,0 +1,79 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}{{ action }} un élève{% endblock %}
+{% block nav_eleves %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<a href="{% url 'admin_panel:eleves' %}" class="breadcrumb-item">Élèves</a>
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">{{ action }}</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">{{ action }} un élève</h1>
+        <p class="page-subtitle">
+            {% if action == "Ajouter" %}
+            L'identifiant de connexion sera généré automatiquement à partir du nom, postnom et prénom.
+            {% else %}
+            Modification du profil de {{ eleve.nom_complet }}.
+            {% endif %}
+        </p>
+    </div>
+    <a href="{% url 'admin_panel:eleves' %}" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Retour
+    </a>
+</div>
+
+<div class="admin-card" style="max-width:560px;">
+    <div class="admin-card-body" style="padding:24px;">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger py-2 small">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-sm-4">
+                    <label class="form-label fw-semibold" style="font-size:13px;">Nom <span class="text-danger">*</span></label>
+                    {{ form.nom }}
+                    {% if form.nom.errors %}<div class="invalid-feedback d-block small">{{ form.nom.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-12 col-sm-4">
+                    <label class="form-label fw-semibold" style="font-size:13px;">Postnom <span class="text-danger">*</span></label>
+                    {{ form.postnom }}
+                    {% if form.postnom.errors %}<div class="invalid-feedback d-block small">{{ form.postnom.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-12 col-sm-4">
+                    <label class="form-label fw-semibold" style="font-size:13px;">Prénom <span class="text-danger">*</span></label>
+                    {{ form.prenom }}
+                    {% if form.prenom.errors %}<div class="invalid-feedback d-block small">{{ form.prenom.errors.0 }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold" style="font-size:13px;">Classe</label>
+                {{ form.classe }}
+                {% if form.classe.errors %}<div class="invalid-feedback d-block small">{{ form.classe.errors.0 }}</div>{% endif %}
+            </div>
+
+            {% if action == "Ajouter" %}
+            <div class="alert alert-info py-2 small mb-4">
+                <i class="bi bi-info-circle me-1"></i>
+                L'identifiant de connexion sera : <strong>NOM POSTNOM PRÉNOM</strong> (en majuscules).
+                L'élève devra créer son mot de passe lors de sa première connexion.
+            </div>
+            {% endif %}
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i>{{ action }}
+                </button>
+                <a href="{% url 'admin_panel:eleves' %}" class="btn btn-outline-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

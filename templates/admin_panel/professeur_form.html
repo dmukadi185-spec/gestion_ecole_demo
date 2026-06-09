@@ -1,0 +1,90 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}{{ action }} un professeur{% endblock %}
+{% block nav_professeurs %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<a href="{% url 'admin_panel:professeurs' %}" class="breadcrumb-item">Professeurs</a>
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">{{ action }}</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">{{ action }} un professeur</h1>
+        <p class="page-subtitle">
+            {% if action == "Ajouter" %}Création d'un compte professeur avec identifiant et mot de passe.
+            {% else %}Modification du profil de {{ prof.nom_complet }}.{% endif %}
+        </p>
+    </div>
+    <a href="{% url 'admin_panel:professeurs' %}" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Retour
+    </a>
+</div>
+
+<div class="admin-card" style="max-width:560px;">
+    <div class="admin-card-body" style="padding:24px;">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger py-2 small">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-sm-4">
+                    <label class="form-label fw-semibold" style="font-size:13px;">Nom <span class="text-danger">*</span></label>
+                    {{ form.nom }}
+                    {% if form.nom.errors %}<div class="invalid-feedback d-block small">{{ form.nom.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-12 col-sm-4">
+                    <label class="form-label fw-semibold" style="font-size:13px;">Postnom</label>
+                    {{ form.postnom }}
+                    {% if form.postnom.errors %}<div class="invalid-feedback d-block small">{{ form.postnom.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-12 col-sm-4">
+                    <label class="form-label fw-semibold" style="font-size:13px;">Prénom</label>
+                    {{ form.prenom }}
+                    {% if form.prenom.errors %}<div class="invalid-feedback d-block small">{{ form.prenom.errors.0 }}</div>{% endif %}
+                </div>
+            </div>
+
+            {% if action == "Ajouter" %}
+            <hr class="my-3">
+            <p class="fw-semibold mb-3" style="font-size:13px;color:#475569;">Compte de connexion</p>
+            <div class="mb-3">
+                <label class="form-label fw-semibold" style="font-size:13px;">{{ form.identifiant.label }} <span class="text-danger">*</span></label>
+                {{ form.identifiant }}
+                {% if form.identifiant.help_text %}<div class="form-text small">{{ form.identifiant.help_text }}</div>{% endif %}
+                {% if form.identifiant.errors %}<div class="invalid-feedback d-block small">{{ form.identifiant.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6">
+                    <label class="form-label fw-semibold" style="font-size:13px;">{{ form.password.label }} <span class="text-danger">*</span></label>
+                    {{ form.password }}
+                    {% if form.password.errors %}<div class="invalid-feedback d-block small">{{ form.password.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-12 col-sm-6">
+                    <label class="form-label fw-semibold" style="font-size:13px;">{{ form.password_confirm.label }} <span class="text-danger">*</span></label>
+                    {{ form.password_confirm }}
+                    {% if form.password_confirm.errors %}<div class="invalid-feedback d-block small">{{ form.password_confirm.errors.0 }}</div>{% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-secondary py-2 small mb-4">
+                <i class="bi bi-info-circle me-1"></i>
+                Identifiant actuel : <strong>{{ prof.user.identifiant }}</strong>. Pour changer le mot de passe, utilisez l'interface Django Admin.
+            </div>
+            {% endif %}
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i>{{ action }}
+                </button>
+                <a href="{% url 'admin_panel:professeurs' %}" class="btn btn-outline-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

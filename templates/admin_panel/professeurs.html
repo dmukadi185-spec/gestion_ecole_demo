@@ -1,0 +1,61 @@
+{% extends "admin_panel/base_admin.html" %}
+{% block title %}Professeurs{% endblock %}
+{% block nav_professeurs %}active{% endblock %}
+{% block breadcrumb_extra %}
+<span class="breadcrumb-sep">›</span>
+<span class="breadcrumb-item current">Professeurs</span>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-left">
+        <h1 class="page-title">Gestion des professeurs</h1>
+        <p class="page-subtitle">{{ prof_data|length }} professeur{{ prof_data|length|pluralize }}</p>
+    </div>
+    <a href="{% url 'admin_panel:professeur_create' %}" class="btn btn-sm btn-primary">
+        <i class="bi bi-plus-lg me-1"></i>Nouveau professeur
+    </a>
+</div>
+
+<div class="admin-card">
+    <div style="overflow-x:auto;">
+        <table class="admin-table">
+            <thead><tr>
+                <th>Nom complet</th>
+                <th>Identifiant de connexion</th>
+                <th class="text-center">Cours assignés</th>
+                <th class="text-center">Actions</th>
+            </tr></thead>
+            <tbody>
+            {% for item in prof_data %}
+            <tr>
+                <td class="fw-med">{{ item.prof.nom_complet }}</td>
+                <td class="mono">{{ item.prof.user.identifiant }}</td>
+                <td class="text-center">
+                    {% if item.nb_cours > 0 %}
+                    <span class="status-badge paye">{{ item.nb_cours }} cours</span>
+                    {% else %}
+                    <span class="status-badge attente">Aucun</span>
+                    {% endif %}
+                </td>
+                <td class="text-center" style="white-space:nowrap;">
+                    <a href="{% url 'admin_panel:professeur_edit' item.prof.pk %}" class="btn btn-xs btn-outline-primary me-1" title="Modifier">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <form method="post" action="{% url 'admin_panel:professeur_delete' item.prof.pk %}" class="d-inline"
+                          onsubmit="return confirm('Supprimer ce professeur ? Ses cours resteront en base mais sans professeur assigné.');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-xs btn-outline-danger" title="Supprimer">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4"><div class="empty-state"><i class="bi bi-person-badge"></i><p>Aucun professeur enregistré</p></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
