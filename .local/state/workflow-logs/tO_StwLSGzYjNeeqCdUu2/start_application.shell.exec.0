@@ -1,0 +1,145 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 09, 2026 - 07:56:47
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[09/Jun/2026 07:57:47] [m"GET / HTTP/1.1" 200 5188[0m
+[09/Jun/2026 07:57:48] [m"GET / HTTP/1.1" 200 5188[0m
+[09/Jun/2026 07:57:48] [m"GET /static/css/style.css HTTP/1.1" 200 3505[0m
+[09/Jun/2026 07:57:48] [m"GET /static/img/logo-ecole.svg HTTP/1.1" 200 1504[0m
+/home/runner/workspace/accounts/models.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E108) The value of 'list_display[1]' refers to 'titre', which is not a callable or attribute of 'DirecteurAdmin', or an attribute, method, or field on 'accounts.Directeur'.[0m
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E116) The value of 'list_filter[0]' refers to 'titre', which does not refer to a Field.[0m
+
+System check identified 2 issues (0 silenced).
+/home/runner/workspace/admin_panel/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E108) The value of 'list_display[1]' refers to 'titre', which is not a callable or attribute of 'DirecteurAdmin', or an attribute, method, or field on 'accounts.Directeur'.[0m
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E116) The value of 'list_filter[0]' refers to 'titre', which does not refer to a Field.[0m
+
+System check identified 2 issues (0 silenced).
+/home/runner/workspace/admin_panel/urls.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E108) The value of 'list_display[1]' refers to 'titre', which is not a callable or attribute of 'DirecteurAdmin', or an attribute, method, or field on 'accounts.Directeur'.[0m
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E116) The value of 'list_filter[0]' refers to 'titre', which does not refer to a Field.[0m
+
+System check identified 2 issues (0 silenced).
+/home/runner/workspace/professeur/views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E108) The value of 'list_display[1]' refers to 'titre', which is not a callable or attribute of 'DirecteurAdmin', or an attribute, method, or field on 'accounts.Directeur'.[0m
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E116) The value of 'list_filter[0]' refers to 'titre', which does not refer to a Field.[0m
+
+System check identified 2 issues (0 silenced).
+/home/runner/workspace/professeur/urls.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/nix/store/h097imm3w6dpx10qynrd2sz9fks2wbq8-python3-3.12.11/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(**check_kwargs)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/django/core/management/base.py", line 573, in check
+    raise SystemCheckError(msg)
+django.core.management.base.SystemCheckError: [31;1mSystemCheckError: System check identified some issues:
+[0m
+ERRORS:
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E108) The value of 'list_display[1]' refers to 'titre', which is not a callable or attribute of 'DirecteurAdmin', or an attribute, method, or field on 'accounts.Directeur'.[0m
+[31;1m<class 'accounts.admin.DirecteurAdmin'>: (admin.E116) The value of 'list_filter[0]' refers to 'titre', which does not refer to a Field.[0m
+
+System check identified 2 issues (0 silenced).
+/home/runner/workspace/accounts/admin.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+[31m
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): accounts.[0m
+[31mRun 'python manage.py migrate' to apply them.[0m
+June 09, 2026 - 08:07:10
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m

@@ -1,0 +1,15 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 09, 2026 - 09:08:04
+Django version 6.0.6, using settings 'plateforme_ecole.settings'
+Starting development server at http://0.0.0.0:5000/
+Quit the server with CONTROL-C.
+
+[33;1mWARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/[0m
+[09/Jul/2026 09:08:09] [m"GET / HTTP/1.1" 200 5188[0m
+[09/Jul/2026 09:08:09] [m"GET / HTTP/1.1" 200 5188[0m
+[09/Jul/2026 09:08:09] [m"GET /static/css/style.css HTTP/1.1" 200 3505[0m
+[09/Jul/2026 09:08:10] [m"GET /static/img/logo-ecole.svg HTTP/1.1" 200 1504[0m

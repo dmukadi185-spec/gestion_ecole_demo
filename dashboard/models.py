@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 
 from accounts.models import Eleve
 
@@ -100,6 +101,28 @@ class Note(models.Model):
 
     def __str__(self):
         return f"{self.eleve} - {self.evaluation_cours}: {self.valeur}/{self.evaluation_cours.note_max}"
+
+    def clean(self):
+        """Ensure the note value does not exceed the configured maximum for the evaluation."""
+        super().clean()
+        if self.evaluation_cours and self.valeur is not None:
+            try:
+                max_val = self.evaluation_cours.note_max
+                # Compare numerically using Decimal
+                from decimal import Decimal
+
+                if Decimal(str(self.valeur)) > Decimal(str(max_val)):
+                    raise ValidationError({
+                        "valeur": f"La valeur ne peut pas dépasser la note maximale ({max_val})."
+                    })
+            except Exception:
+                # If conversion fails, let other validations raise appropriate errors
+                pass
+
+    def save(self, *args, **kwargs):
+        # Enforce validation before saving to database
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     @property
     def cours(self):
